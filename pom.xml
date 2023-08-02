@@ -35,12 +35,21 @@
 			<artifactId>gson</artifactId>
 		</dependency>
 
-		<!-- PRUEBA TRILATEARCION-->
+		<!-- TRIANGULACION-->
 		<dependency>
 			<groupId>com.lemmingapex.trilateration</groupId>
 			<artifactId>trilateration</artifactId>
 			<version>1.0.2</version>
 		</dependency>
+
+		<!-- DICCIONARIO -->
+		<dependency>
+			<groupId>org.languagetool</groupId>
+			<artifactId>language-es</artifactId>
+			<version>6.1</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

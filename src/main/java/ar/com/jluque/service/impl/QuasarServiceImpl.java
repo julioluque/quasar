@@ -1,7 +1,12 @@
 package ar.com.jluque.service.impl;
 
 import java.awt.Point;
+import java.io.IOException;
+import java.util.List;
 
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.Spanish;
+import org.languagetool.rules.RuleMatch;
 import org.springframework.stereotype.Service;
 
 import ar.com.jluque.dto.PositionDto;
@@ -33,8 +38,27 @@ public class QuasarServiceImpl implements QuasarService {
 
 	@Override
 	public String getMessage(String[][] messages) {
-		// TODO split
+		for (String[] ms : messages) {
+			for (String m : ms) {
+				validateWord(m);
+			}
+		}
 		return "Este es el mensaje";
+	}
+
+	private void validateWord(String word) {
+		// Crea una instancia de JLanguageTool para el idioma español
+		JLanguageTool languageTool = new JLanguageTool(new Spanish());
+		try {
+			// Obtiene la lista de errores ortográficos en el texto proporcionado
+			List<RuleMatch> matches = languageTool.check(word);
+
+			if (!matches.isEmpty()) {
+				System.out.println("La palabra '" + word + "' es inexistente o incorrecta.");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

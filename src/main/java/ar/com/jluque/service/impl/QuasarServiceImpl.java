@@ -8,8 +8,8 @@ import ar.com.jluque.dto.PositionDto;
 import ar.com.jluque.dto.SatelliteDistanceDto;
 import ar.com.jluque.dto.SatellitePositionDto;
 import ar.com.jluque.dto.SatellitesDto;
+import ar.com.jluque.mapper.QuasarMapper;
 import ar.com.jluque.service.QuasarService;
-import ar.com.jluque.utils.QuasarConstant;
 
 @Service
 public class QuasarServiceImpl implements QuasarService {
@@ -17,36 +17,16 @@ public class QuasarServiceImpl implements QuasarService {
 	@Override
 	public Point getLocation(double[] distances) {
 
-		// distancias base.
-		Point owner = new Point();
-		owner.setLocation(distances[0], distances[1]);
-		double distance = owner.distance(distances[0], distances[1]);
-
-		// Distancia a origen
-		Point kenobi = new Point();
-		kenobi.setLocation(QuasarConstant.SATELLITE_KENOBI[0], QuasarConstant.SATELLITE_KENOBI[1]);
-		kenobi.distance(0, 0);
-
-		Point skywalker = new Point();
-		skywalker.setLocation(QuasarConstant.SATELLITE_SKYWALKER[0], QuasarConstant.SATELLITE_SKYWALKER[1]);
-		skywalker.distance(0, 0);
-
-		Point sato = new Point(500, 100);
-		sato.setLocation(QuasarConstant.SATELLITE_SATO[0], QuasarConstant.SATELLITE_SATO[1]);
-		sato.distance(0, 0);
-
-		double distKenoSkyw = kenobi.distance(skywalker.x, skywalker.y);
-		double distKenoSato = kenobi.distance(sato.x, sato.y);
-		double distSkywSato = skywalker.distance(sato.x, sato.y);
+		if (distances == null || distances.length != 3) {
+			throw new IllegalArgumentException("review amount of satelites");
+		}
 
 		// distancia al emisor
+		double distanceToKenobi = distances[0];
+		double distanceToSkywalker = distances[1];
+		double distanceToSato = distances[2];
 
-		// mapear cordenadas
-
-		// mapear triangulacion.
-
-		// fuente o coordenadas del mensaje
-		return new Point(0, 0);
+		return QuasarMapper.triangularPosicion(distanceToKenobi, distanceToSkywalker, distanceToSato);
 	}
 
 	@Override

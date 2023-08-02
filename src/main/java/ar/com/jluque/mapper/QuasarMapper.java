@@ -1,14 +1,62 @@
 package ar.com.jluque.mapper;
 
+import java.awt.Point;
+
+import ar.com.jluque.utils.QuasarConstant;
+
 public class QuasarMapper {
 
 	public QuasarMapper() {
 	}
 
-	public static void triangulacion() {
+	/**
+	 * Formula de triangulacion para encontrar las coordenadas del origen (x, y) 
+	 * 
+	 * Dadas las coordenadas (x1, y1), (x2, y2) y (x3, y3)
+	 * Con distancia d1, d2 y d3
+	 *   
+	 * #1_Diferencias - calculamos las diferencias de coordenadas entre cada satélite y el origen:
+     * dif1_x = x1 - x
+     * dif1_y = y1 - y
+     * dif2_x = x2 - x
+     * dif2_y = y2 - y
+     * dif3_x = x3 - x
+     * dif3_y = y3 - y
+     * 
+     * #Distancias - establecemos un sistema de ecuaciones usando las distancias desde los satélites al origen:
+     * (dif1_x)^2 + (dif1_y)^2 = d1^2
+     * (dif2_x)^2 + (dif2_y)^2 = d2^2
+     * (dif3_x)^2 + (dif3_y)^2 = d3^2
+     * 
+     * #3_Coordenadas - resolvemos el sistema de ecuaciones para encontrar las coordenadas (x, y) del origen.
+	 */
+	public static Point triangularPosicion(double d1, double d2, double d3) {
+		// mapear cordenadas
+		double x1 = QuasarConstant.SATELLITE_KENOBI[0];
+		double y1 = QuasarConstant.SATELLITE_KENOBI[1];
 
+		double x2 = QuasarConstant.SATELLITE_SKYWALKER[0];
+		double y2 = QuasarConstant.SATELLITE_SKYWALKER[1];
+
+		double x3 = QuasarConstant.SATELLITE_SATO[0];
+		double y3 = QuasarConstant.SATELLITE_SATO[1];
+
+		// Distancias mapear triangulacion.
+		double A = 2 * (x2 - x1);
+		double B = 2 * (y2 - y1);
+		double C = Math.pow(d1, 2) - Math.pow(d2, 2) - Math.pow(x1, 2) + Math.pow(x2, 2) - Math.pow(y1, 2) + Math.pow(y2, 2);
+		double D = 2 * (x3 - x2);
+		double E = 2 * (y3 - y2);
+		double F = Math.pow(d2, 2) - Math.pow(d3, 2) - Math.pow(x2, 2) + Math.pow(x3, 2) - Math.pow(y2, 2) + Math.pow(y3, 2);
+
+		
+		// 3_Coordenadas fuente o coordenadas del mensaje
+		double x = (C * E - F * B) / (E * A - B * D);
+		double y = (C - A * x) / B;
+
+		return new Point((int) x, (int) y);
 	}
-
+	
 	public void coordenadas() {
 
 	}

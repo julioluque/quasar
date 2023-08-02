@@ -11,4 +11,11 @@ public class ValidateMapper {
 		}
 	}
 
+	public static void amountMessages(String[][] messages) {
+		if (messages == null || messages.length != 3) {
+			throw new IllegalArgumentException("review amount of messages");
+		}
+	}
+	
+
 }

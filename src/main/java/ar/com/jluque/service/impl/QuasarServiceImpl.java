@@ -2,6 +2,7 @@ package ar.com.jluque.service.impl;
 
 import java.awt.Point;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.languagetool.JLanguageTool;
@@ -38,25 +39,40 @@ public class QuasarServiceImpl implements QuasarService {
 
 	@Override
 	public String getMessage(String[][] messages) {
-		for (String[] ms : messages) {
-			for (String m : ms) {
-				validateWord(m);
-			}
-		}
+		ValidateMapper.amountMessages(messages);
+
+		validateWord(messages);
+
 		return "Este es el mensaje";
 	}
 
-	private void validateWord(String word) {
-		// Crea una instancia de JLanguageTool para el idioma español
+	private void validateWord(String[][] wordMatrix) {
 		JLanguageTool languageTool = new JLanguageTool(new Spanish());
-		try {
-			// Obtiene la lista de errores ortográficos en el texto proporcionado
-			List<RuleMatch> matches = languageTool.check(word);
 
-			if (!matches.isEmpty()) {
-				System.out.println("La palabra '" + word + "' es inexistente o incorrecta.");
-			}
-		} catch (IOException e) {
+		List<List<String>> palabrasList = Arrays.stream(wordMatrix).map(Arrays::asList).toList();
+
+		try {
+
+			palabrasList.stream().flatMap(List::stream).forEach(palabra -> {
+				try {
+					// Obtiene la lista de errores ortográficos en cada palabra
+					List<RuleMatch> matches = languageTool.check(palabra);
+
+					if (matches.isEmpty()) {
+						System.out.println("La palabra '" + palabra + "' es válida.");
+					} else {
+						System.out.print("La palabra '" + palabra
+								+ "' es inexistente o incorrecta. y la reemplazamos con espacio");
+						palabra = "";
+						System.out.println(" -->  nueva palabra [" + palabra + "]");
+
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			});
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

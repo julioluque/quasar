@@ -30,7 +30,7 @@ public class QuasarServiceImpl implements QuasarService {
 	@Override
 	public Point getLocation(double[] distances) {
 
-		ValidateMapper.amountSatellites(distances);
+		ValidateMapper.amountOfSatellites(distances);
 
 		double[][] positions = QuasarMapper.getPositions();
 
@@ -44,8 +44,10 @@ public class QuasarServiceImpl implements QuasarService {
 
 	@Override
 	public String getMessage(String[][] messages) {
-		ValidateMapper.amountMessages(messages);
 
+		ValidateMapper.amountOfMessages(messages);
+		ValidateMapper.amountOfWords(messages);
+		
 		List<List<String>> splitedMessages = validateAndSplitWords(messages);
 		return buildMessage(splitedMessages);
 	}

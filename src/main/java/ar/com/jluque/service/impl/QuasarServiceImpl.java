@@ -2,12 +2,15 @@ package ar.com.jluque.service.impl;
 
 import java.awt.Point;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Spanish;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.synthesis.SynthesizerTools;
 import org.springframework.stereotype.Service;
 
 import ar.com.jluque.dto.PositionDto;
@@ -41,7 +44,11 @@ public class QuasarServiceImpl implements QuasarService {
 	public String getMessage(String[][] messages) {
 		ValidateMapper.amountMessages(messages);
 
+		System.out.println(">>>>>>>>>COMPARAMOS validateWord<<<<<<<<<");
 		validateWord(messages);
+
+		System.out.println(">>>>>>>>>COMPARAMOS validateWord2<<<<<<<<<");
+		validateWord2(messages);
 
 		return "Este es el mensaje";
 	}
@@ -55,7 +62,6 @@ public class QuasarServiceImpl implements QuasarService {
 
 			palabrasList.stream().flatMap(List::stream).forEach(palabra -> {
 				try {
-					// Obtiene la lista de errores ortográficos en cada palabra
 					List<RuleMatch> matches = languageTool.check(palabra);
 
 					if (matches.isEmpty()) {
@@ -64,7 +70,7 @@ public class QuasarServiceImpl implements QuasarService {
 						System.out.print("La palabra '" + palabra
 								+ "' es inexistente o incorrecta. y la reemplazamos con espacio");
 						palabra = "";
-						System.out.println(" -->  nueva palabra [" + palabra + "]");
+						System.out.println(" -->  nueva palabra [" + palabra + "agregartexto]");
 
 					}
 				} catch (IOException e) {
@@ -75,6 +81,62 @@ public class QuasarServiceImpl implements QuasarService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void validateWord2(String[][] wordMatrix) {
+		JLanguageTool languageTool = new JLanguageTool(new Spanish());
+		List<List<String>> palabrasList = Arrays.stream(wordMatrix).map(Arrays::asList).collect(Collectors.toList());
+
+		List<List<String>> palabrasListModificada = new ArrayList<>();
+		try {
+
+			palabrasList.stream().forEach(palabras -> {
+				List<String> palabrasModificadas = new ArrayList<>();
+
+				palabras.forEach(palabra -> {
+					try {
+						List<RuleMatch> matches = languageTool.check(palabra);
+
+						if (matches.isEmpty()) {
+							System.out.println("La palabra '" + palabra + "' es válida.");
+//                            palabrasModificadas.add(palabra);
+						} else {
+							System.out.print("La palabra '" + palabra
+									+ "' es inexistente o incorrecta. y la reemplazamos con espacio");
+							palabra = "";
+							System.out.println(" -->  nueva palabra [" + palabra + "agregartexto]");
+
+						}
+						palabrasModificadas.add(palabra);
+
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+				palabrasListModificada.add(palabrasModificadas);
+			});
+
+//            palabrasList = palabrasListModificada;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("---1----");
+		palabrasList.forEach(palabras -> {
+			palabras.forEach(palabra -> {
+				System.out.println("La palabra modificada es: " + palabra);
+			});
+		});
+		palabrasListModificada.forEach(palabras -> {
+			palabras.forEach(palabra -> {
+				System.out.println("La palabra modificada es: " + palabra);
+			});
+		});
+
+		System.out.println("---2----");
+		System.out.println(palabrasList);
+		System.out.println(palabrasListModificada);
+
 	}
 
 	/**

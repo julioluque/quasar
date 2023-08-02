@@ -10,8 +10,9 @@ import ar.com.jluque.dto.SatelliteDto;
 import ar.com.jluque.dto.SatellitePositionDto;
 import ar.com.jluque.dto.SatellitesDto;
 import ar.com.jluque.mapper.QuasarMapper;
+import ar.com.jluque.mapper.TriangulateMapper;
+import ar.com.jluque.mapper.ValidateMapper;
 import ar.com.jluque.service.QuasarService;
-import static ar.com.jluque.utils.QuasarConstant.*;
 
 @Service
 public class QuasarServiceImpl implements QuasarService {
@@ -19,24 +20,14 @@ public class QuasarServiceImpl implements QuasarService {
 	@Override
 	public Point getLocation(double[] distances) {
 
-		if (distances == null || distances.length != 3) {
-			throw new IllegalArgumentException("review amount of satelites");
-		}
+		ValidateMapper.amountSatellites(distances);
 
-		// distancia al emisor
-		double distanceToKenobi = distances[0];
-		double distanceToSkywalker = distances[1];
-		double distanceToSato = distances[2];
+		double[][] positions = QuasarMapper.getPositions();
 
-		double[][] positions = new double[][] { { SATELLITE_KENOBI[0], SATELLITE_KENOBI[1] },
-				{ SATELLITE_SKYWALKER[0], SATELLITE_SKYWALKER[1] }, { SATELLITE_SATO[0], SATELLITE_SATO[1] } };
-
-		Point posicionesLibreria= QuasarMapper.triangulacionLibrary(positions, distances);
-		Point posicionesFormula = QuasarMapper.triangularFormula(positions, distanceToKenobi, distanceToSkywalker,
-				distanceToSato);
-		System.out.println("posicionesLibreria: " + posicionesLibreria);
-		System.out.println("posicionesFormula: " + posicionesFormula);
-
+		Point posicionesLibreria = TriangulateMapper.triangulacionLibrary(positions, distances);
+		Point posicionesFormula = TriangulateMapper.triangularFormula(positions, distances);
+		System.out.println(posicionesLibreria);
+		System.out.println(posicionesFormula);
 		return posicionesFormula;
 	}
 

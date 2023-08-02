@@ -42,7 +42,7 @@ public class QuasarServiceImpl implements QuasarService {
 	public SatellitePositionDto topSecret(SatellitesDto satellites) {
 
 		// TODO persistir satelite.
-
+		
 		// getLocation
 		Point p = getLocation(null);
 

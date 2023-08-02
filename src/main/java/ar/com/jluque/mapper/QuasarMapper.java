@@ -2,6 +2,12 @@ package ar.com.jluque.mapper;
 
 import java.awt.Point;
 
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
+import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
+
+import com.lemmingapex.trilateration.NonLinearLeastSquaresSolver;
+import com.lemmingapex.trilateration.TrilaterationFunction;
+
 import ar.com.jluque.utils.QuasarConstant;
 
 public class QuasarMapper {
@@ -14,7 +20,9 @@ public class QuasarMapper {
 	 * 
 	 * Dadas las coordenadas (x1, y1), (x2, y2) y (x3, y3)
 	 * Con distancia d1, d2 y d3
-	 *   
+	 * 
+	 * https://www.geogebra.org/graphing
+	 * 
 	 * #1_Diferencias - calculamos las diferencias de coordenadas entre cada satélite y el origen:
      * dif1_x = x1 - x
      * dif1_y = y1 - y
@@ -57,8 +65,20 @@ public class QuasarMapper {
 		return new Point((int) x, (int) y);
 	}
 	
-	public void coordenadas() {
+	
+	/**
+	 * Prueba con libreria.
+	 * https://github.com/lemmingapex/trilateration
+	 */
+	public void pruebaTrilateracion(double[] distances) {
+		double[][] positions = new double[][] { { -500.0, -200.0 }, { 100.0, -100.0 }, { 500.0, 100 } };
 
+		NonLinearLeastSquaresSolver solver = new NonLinearLeastSquaresSolver(new TrilaterationFunction(positions, distances), new LevenbergMarquardtOptimizer());
+		Optimum optimum = solver.solve();
+		    
+		double[] centroid = optimum.getPoint().toArray();
+		System.out.println(centroid);
+		
 	}
 
 }

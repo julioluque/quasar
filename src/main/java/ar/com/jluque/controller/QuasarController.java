@@ -26,40 +26,24 @@ public class QuasarController {
 	}
 
 	/**
-	 * Fuente del mensaje:
+	 * * NIVEL 1 Fuente del mensaje:
 	 * 
 	 * @param distances - distancia al emisor tal cual se recibe en cada satelite.
 	 * @return Point - las coordenadas de x e y del emisor del mensaje.
 	 */
 	@GetMapping("/distance/{array_distance}")
 	public ResponseEntity<Point> getLocation(@PathVariable(value = "array_distance") double[] distances) {
-
-		double[] miArray = { 100.0, 200.0 };
-		distances = miArray;
-
 		return new ResponseEntity<>(service.getLocation(distances), HttpStatus.OK);
 	}
 
 	/**
-	 * Contenido del mensaje
+	 * * NIVEL 1 Contenido del mensaje
 	 * 
 	 * @param messages - el mensaje tal cual es recibido por cada satelite.
 	 * @return String - el mensaje tal cual lo genera el emisonr del mensaje.
 	 */
 	@PostMapping("/message/")
 	public ResponseEntity<String> getMessage(@RequestBody String[][] messages) {
-
-        
-		String[] m1 = { "este", "", "", "mensaje", "" };
-		String[] m2 = { "", "es", "", "", "secreto" };
-		String[] m3 = { "este", "", "un", "", "" };
-
-		String[][] mensajes = { m1, m2, m3 };
-
-//		String[][] mensajes = { { "este", "", "", "mensaje", "" }, { "", "es", "", "", "secreto" },{ "este", "", "un", "", "" } };
-
-		messages = mensajes;
-
 		return new ResponseEntity<>(service.getMessage(messages), HttpStatus.OK);
 	}
 

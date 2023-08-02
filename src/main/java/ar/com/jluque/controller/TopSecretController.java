@@ -36,36 +36,6 @@ public class TopSecretController {
 	 */
 	@PostMapping("/topsecret/")
 	public ResponseEntity<SatellitePositionDto> topSecret(@RequestBody SatellitesDto satellites) {
-
-//		Gson gson = new Gson();
-//		System.out.println(gson.toJson(satellites));
-//		
-//		String json = "{\"satellites\":[{\"name\":\"kenobi\",\"distance\":100.0,\"message\":[\"este\",\"\",\"\",\"mensaje\",\"\"]},{\"name\":\"skywalker\",\"distance\":115.5,\"message\":[\"\",\"es\",\"\",\"\",\"secreto\"]},{\"name\":\"sato\",\"distance\":142.7,\"message\":[\"este\",\"\",\"un\",\"\",\"\"]}]}";
-//		satellites = gson.fromJson(json, SatellitesDto.class);
-
-//		SatelliteDto kenobi = new SatelliteDto();
-//		kenobi.setName("kenobi");
-//		kenobi.setDistance(100.0);
-//		kenobi.setMessage(new String[] { "", "es", "", "", "secreto" });
-//
-//		SatelliteDto skywalker = new SatelliteDto();
-//		skywalker.setName("kenobi");
-//		skywalker.setDistance(100.0);
-//		skywalker.setMessage(new String[] { "", "es", "", "", "secreto" });
-//
-//		SatelliteDto sato = new SatelliteDto();
-//		sato.setName("kenobi");
-//		sato.setDistance(100.0);
-//		sato.setMessage(new String[] { "este", "", "un", "", "" });
-//
-//		List<SatelliteDto> satellitesList = new ArrayList<SatelliteDto>();
-//		satellitesList.add(kenobi);
-//		satellitesList.add(skywalker);
-//		satellitesList.add(sato);
-//
-//		satellites.setSatellites(satellitesList);
-//		System.out.println(gson.toJson(satellites));
-
 		return new ResponseEntity<>(service.topSecret(satellites), HttpStatus.OK);
 	}
 

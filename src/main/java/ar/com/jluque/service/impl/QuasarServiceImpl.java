@@ -9,52 +9,46 @@ import ar.com.jluque.dto.SatelliteDistanceDto;
 import ar.com.jluque.dto.SatellitePositionDto;
 import ar.com.jluque.dto.SatellitesDto;
 import ar.com.jluque.service.QuasarService;
+import ar.com.jluque.utils.QuasarConstant;
 
 @Service
 public class QuasarServiceImpl implements QuasarService {
 
-	/**
-	 * Retornamos la fuente del mensaje.
-	 * 
-	 * La unidad de distancia en los parámetros de getLocation es la misma que la
-	 * que se utiliza para indicar la posición de cada satélite
-	 */
 	@Override
 	public Point getLocation(double[] distances) {
 
-		double x = 10.0;
-		double y = 20.0;
+		// distancias base.
+		Point owner = new Point();
+		owner.setLocation(distances[0], distances[1]);
+		double distance = owner.distance(distances[0], distances[1]);
 
-		try {
-			x = distances[0] + x;
-			y = distances[1] + y;
-		} catch (Exception e) {
-			System.out.println("error");
-		}
+		// Distancia a origen
+		Point kenobi = new Point();
+		kenobi.setLocation(QuasarConstant.SATELLITE_KENOBI[0], QuasarConstant.SATELLITE_KENOBI[1]);
+		kenobi.distance(0, 0);
 
-		Point location = new Point();
-		location.setLocation(x, y);
+		Point skywalker = new Point();
+		skywalker.setLocation(QuasarConstant.SATELLITE_SKYWALKER[0], QuasarConstant.SATELLITE_SKYWALKER[1]);
+		skywalker.distance(0, 0);
 
-		return location;
+		Point sato = new Point(500, 100);
+		sato.setLocation(QuasarConstant.SATELLITE_SATO[0], QuasarConstant.SATELLITE_SATO[1]);
+		sato.distance(0, 0);
+
+		double distKenoSkyw = kenobi.distance(skywalker.x, skywalker.y);
+		double distKenoSato = kenobi.distance(sato.x, sato.y);
+		double distSkywSato = skywalker.distance(sato.x, sato.y);
+
+		// distancia al emisor
+
+		// mapear cordenadas
+
+		// mapear triangulacion.
+
+		// fuente o coordenadas del mensaje
+		return new Point(0, 0);
 	}
 
-	/**
-	 * Retornamos el contenido del mensaje
-	 * 
-	 * El mensaje recibido en cada satélite se recibe en forma de arreglo de
-	 * strings.
-	 * 
-	 * Cuando una palabra del mensaje no pueda ser determinada, se reemplaza por un
-	 * string en blanco en el array. Ejemplo: [“este”, “es”, “”, “mensaje”]
-	 * 
-	 * Considerar que existe un desfase (a determinar) en el mensaje que se recibe
-	 * en cada satélite. Ejemplo:
-	 * 
-	 * @Kenobi: [“”, “este”, “es”, “un”, “mensaje”]
-	 * @Skywalker: [“este”, “”, “un”, “mensaje”]
-	 * @Sato: [“”, ””, ”es”, ””, ”mensaje”]
-	 * 
-	 */
 	@Override
 	public String getMessage(String[][] messages) {
 		// TODO split

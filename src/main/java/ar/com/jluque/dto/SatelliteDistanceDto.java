@@ -15,5 +15,5 @@ public class SatelliteDistanceDto {
 
 	private double distance;
 	private String[] message;
-	
+
 }

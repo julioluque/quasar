@@ -1,16 +1,18 @@
-package ar.com.jluque.mapper;
+package ar.com.jluque.service.impl;
 
 import java.awt.Point;
 
-import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
+import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
+import org.springframework.stereotype.Service;
 
 import com.lemmingapex.trilateration.NonLinearLeastSquaresSolver;
 import com.lemmingapex.trilateration.TrilaterationFunction;
 
+import ar.com.jluque.service.PositionService;
 
-public class TriangulateMapper {
-
+@Service
+public class PositionServiceImpl implements PositionService {
 
 	/**
 	 * Formula de triangulacion para encontrar las coordenadas del origen (x, y)
@@ -30,7 +32,7 @@ public class TriangulateMapper {
 	 * #3_Coordenadas - resolvemos el sistema de ecuaciones para encontrar las
 	 * coordenadas (x, y) del origen.
 	 */
-	public static Point triangularFormula(double[][] positions, double[] distances) {
+	public Point triangularFormula(double[][] positions, double[] distances) {
 
 		// mapear cordenadas
 		double d1 = distances[0];
@@ -68,7 +70,7 @@ public class TriangulateMapper {
 	 * 
 	 * @Libreria: https://github.com/lemmingapex/trilateration
 	 */
-	public static Point triangulacionLibrary(double[][] positions, double[] distances) {
+	public Point triangulacionLibrary(double[][] positions, double[] distances) {
 		NonLinearLeastSquaresSolver solver = new NonLinearLeastSquaresSolver(
 				new TrilaterationFunction(positions, distances), new LevenbergMarquardtOptimizer());
 		Optimum optimum = solver.solve();

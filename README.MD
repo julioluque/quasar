@@ -3,22 +3,42 @@
 
 Este es un proyecto es un confidencial perteneciente a la rebelion. No lo cuentes a nadie que:
 
-  - 1 Triangula posiciones
-    - 1.1 Formula de triangulacion general
-    - 1.2 Libreria super secreta de com.lemmingapex.trilateration
-  - 2 Intercepta mensajes enemigos
-    - 2.1 
-    - 2.2 Hacemos split sobre lista original
-    - 2.3 validamos tamaños de mensajes
-    - 2.4 invertimos la matriz para manipular mensajes
-  - 3 Ejecucion del programa
+- LEVEL 1
+  - 1.1 Triangula posiciones
+    - 1.1.1 Formula de triangulacion general
+    - 1.1.2 Libreria super secreta de com.lemmingapex.trilateration
+  - 1.2 Intercepta mensajes enemigos
+    - 1.2.1 
+    - 1.2.2 Hacemos split sobre lista original
+    - 1.2.3 validamos tamaños de mensajes
+    - 1.2.4 invertimos la matriz para manipular mensajes
+  - 1.3 Ejecucion del programa
 
-## 1 Triangula posiciones
+- LEVEL 2
+  - 2.1 
+    - 2.1.1 
+    - 2.1.2 
+  - 2.2 
+    - 2.2.1
+    - 2.2.2
+
+- LEVEL 3
+  - 2.1
+    - 2.1.1
+    - 2.1.2
+  - 2.2
+    - 2.2.1
+    - 2.2.2
+- EJECUCION DEL PROGRAMA
+
+## LEVEL 1
+
+### 1.1 Triangula posiciones
 Triangula posiciones con dos metodos:
 
  
 
-### 1.1 Formula de triangulacion general
+#### 1.1.1 Formula de triangulacion general
 
 	Formula de triangulacion para encontrar las coordenadas del origen (x, y)
 		
@@ -37,7 +57,7 @@ Triangula posiciones con dos metodos:
 	#3_Coordenadas - resolvemos el sistema de ecuaciones para encontrar las
 	coordenadas (x, y) del origen.
 
-### 1.2 Libreria super secreta de com.lemmingapex.trilateration fuente:
+#### 1.1.2 Libreria super secreta de com.lemmingapex.trilateration fuente:
 	https://github.com/lemmingapex/trilateration
 
 	<!-- TRIANGULACION-->
@@ -47,10 +67,10 @@ Triangula posiciones con dos metodos:
 		<version>1.0.2</version>
 	</dependency>	
 
-## 2 Intercepta mensajes enemigos
+### 1.2 Intercepta mensajes enemigos
 
 
-### 2.1 Libreria para validar palabras.
+#### 1.2.1 Libreria para validar palabras.
 
     <!-- DICCIONARIO -->
     <dependency>
@@ -59,14 +79,14 @@ Triangula posiciones con dos metodos:
         <version>6.1</version>
     </dependency>
 
-### 2.2 Hacemos split sobre lista original
+#### 1.2.2 Hacemos split sobre lista original
     Validamos las palabras usando el diccionario en castellano. 
     Las no reconocidas se reemplazan por espacio 
 
-### 2.3 validamos tamaños de mensajes
+#### 1.2.3 validamos tamaños de mensajes
     Validamos cantidad de mensajes y el tamaño de cada mensaje para poder armar el mismo.
 
-### 2.4 invertimos la matriz para manipular mensajes
+#### 1.2.4 invertimos la matriz para manipular mensajes
 cambiamos:
 
 		x1 x2 x3 x4 
@@ -83,7 +103,66 @@ por:
 Asi podemos manipuar el arra y mensajes y compararlos
 
 
-## 2 Ejecucion del programa
+## LEVEL 2
+- Servicio POST.
+- Consume los servicios del nivel 1
+- BASEURL: localhost:8080 
+- http://BASEURL/topsecret/
+
+RequestBody.
+
+    {
+        "satellites": [
+            {
+                "name": "kenobi",
+                "distance": 100.0,
+                "message": [
+                    "este",
+                    "",
+                    "",
+                    "mensaje",
+                    ""
+                ]
+            },
+            {
+                "name": "skywalker",
+                "distance": 115.5,
+                "message": [
+                    "",
+                    "es",
+                    "",
+                    "",
+                    "secreto"
+                ]
+            },
+            {
+                "name": "sato",
+                "distance": 142.7,
+                "message": [
+                    "este",
+                    "",
+                    "un",
+                    "",
+                    ""
+                ]
+            }
+        ]
+    }
+
+ResponseBody
+
+    {
+        "position": {
+            "x": -487.0,
+            "y": 1557.0
+        },
+        "message": "este es un mensaje secreto"
+    }
+    
+
+## LEVEL 3
+
+## Ejecucion del programa
 Para poder compilarlo con maven usamos
 
 ```

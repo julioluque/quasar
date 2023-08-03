@@ -71,7 +71,6 @@ public class QuasarServiceImpl implements QuasarService {
 					} else {
 						log.info("[{}]\t no reconocida. La reemplazamos con espacio", palabra);
 						palabra = "";
-
 					}
 					palabrasModificadas.add(palabra);
 
@@ -88,23 +87,35 @@ public class QuasarServiceImpl implements QuasarService {
 
 	private String buildMessage(List<List<String>> messages) {
 
-		List<String> finalList = new ArrayList<>();
+		int filaSize = messages.size();
+		int columnaSize = messages.get(0).size();
 
-		// tomar primer elemento de cada lista. y compararlos
-		// rellenar los vacios.
-		// armar un alista final
-		for (List<String> x : messages) {
-			for (String y : x) {
-//			x1 x2 x3 x4 
-//			y1 y2 y3 y4
-//			z1 z2 z3 z4
-//			
-//			x1 y1 z1
-//			x2 y2 z2
-//			x3 y3 z3
-//			x4 y4 z4
+		List<List<String>> matrizInvertida = new ArrayList<>();
+
+		for (int c = 0; c <= columnaSize; c++) {
+			matrizInvertida.add(new ArrayList<>());
+		}
+
+//		armar un alista final
+//		x1 x2 x3 x4 
+//		y1 y2 y3 y4
+//		z1 z2 z3 z4
+//		
+//		x1 y1 z1
+//		x2 y2 z2
+//		x3 y3 z3
+//		x4 y4 z4
+		for (int newY = 0; newY < filaSize; newY++) {
+			List<String> row = messages.get(newY);
+			for (int newX = 0; newX < columnaSize; newX++) {
+				matrizInvertida.get(newX).add(row.get(newX));
 			}
 		}
+
+		// revision matriz invertida.
+		log.info(matrizInvertida);
+		
+		// tomar primer elemento de cada lista. y compararlos
 		return messages.toString();
 	}
 

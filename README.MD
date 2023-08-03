@@ -7,9 +7,11 @@ Este es un proyecto es un confidencial perteneciente a la rebelion. No lo cuente
     - 1.1 Formula de triangulacion general
     - 1.2 Libreria super secreta de com.lemmingapex.trilateration
   - 2 Intercepta mensajes enemigos
-    - 2.1 Hacemos split sobre lista original
-    - 2.2 validamos tamaños de mensajes
-    - 2.2 invertimos la matriz para manipular mensajes
+    - 2.1 
+    - 2.2 Hacemos split sobre lista original
+    - 2.3 validamos tamaños de mensajes
+    - 2.4 invertimos la matriz para manipular mensajes
+  - 3 Ejecucion del programa
 
 ## 1 Triangula posiciones
 Triangula posiciones con dos metodos:
@@ -37,7 +39,8 @@ Triangula posiciones con dos metodos:
 
 ### 1.2 Libreria super secreta de com.lemmingapex.trilateration fuente:
 	https://github.com/lemmingapex/trilateration
-	
+
+	<!-- TRIANGULACION-->
 	<dependency>
 		<groupId>com.lemmingapex.trilateration</groupId>
 		<artifactId>trilateration</artifactId>
@@ -47,24 +50,40 @@ Triangula posiciones con dos metodos:
 ## 2 Intercepta mensajes enemigos
 
 
-### 2.1 Hacemos split sobre lista original
-    
-### 2.2 validamos tamaños de mensajes
+### 2.1 Libreria para validar palabras.
 
-### 2.3 invertimos la matriz para manipular mensajes
+    <!-- DICCIONARIO -->
+    <dependency>
+        <groupId>org.languagetool</groupId>
+        <artifactId>language-es</artifactId>
+        <version>6.1</version>
+    </dependency>
+
+### 2.2 Hacemos split sobre lista original
+    Validamos las palabras usando el diccionario en castellano. 
+    Las no reconocidas se reemplazan por espacio 
+
+### 2.3 validamos tamaños de mensajes
+    Validamos cantidad de mensajes y el tamaño de cada mensaje para poder armar el mismo.
+
+### 2.4 invertimos la matriz para manipular mensajes
 cambiamos:
 
 		x1 x2 x3 x4 
 		y1 y2 y3 y4
 		z1 z2 z3 z4
 
-por: 
+por:
 
 		x1 y1 z1
 		x2 y2 z2
 		x3 y3 z3
 		x4 y4 z4
 
+Asi podemos manipuar el arra y mensajes y compararlos
+
+
+## 2 Ejecucion del programa
 Para poder compilarlo con maven usamos
 
 ```

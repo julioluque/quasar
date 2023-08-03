@@ -82,11 +82,11 @@ public class MessageServiceImpl implements MessageService {
 		for (List<String> messages : messagesMatrix) {
 			String aux = "";
 			for (String message : messages) {
-				if (aux.equals("") && message.equals("")) {
+				if (aux.isEmpty() && message.isEmpty()) {
 					aux = message;
-				} else if (aux.equals("") && !message.equals("")) {
+				} else if (aux.isEmpty() && !message.isEmpty()) {
 					aux = message;
-				} else if (!aux.equals("") && !message.equals("")) {
+				} else if (!aux.isEmpty() && !message.isEmpty()) {
 					if (!aux.equalsIgnoreCase(message)) 
 						log.error("Error de comparacion de mensaje. '{}' != '{}'", aux, message);
 					aux = message;

@@ -20,8 +20,7 @@ public class MessageServiceImpl implements MessageService {
 
 	public List<List<String>> validateAndSplitWords(String[][] wordMatrix) {
 		JLanguageTool languageTool = new JLanguageTool(new Spanish());
-		List<List<String>> mensajeOriginalList = Arrays.stream(wordMatrix).map(Arrays::asList)
-				.collect(Collectors.toList());
+		List<List<String>> mensajeOriginalList = Arrays.stream(wordMatrix).map(Arrays::asList).toList();
 		log.info("Original Message{}", mensajeOriginalList);
 
 		List<List<String>> mensajeModificadoList = new ArrayList<>();
@@ -33,7 +32,7 @@ public class MessageServiceImpl implements MessageService {
 				try {
 					List<RuleMatch> matches = languageTool.check(palabra);
 					if (!matches.isEmpty()) {
-						log.info("[{}]\t no reconocida. La reemplazamos con espacio", palabra);
+						log.info("[{}]\t no reconocida, se reemplaza con espacio", palabra);
 						palabra = "";
 					}
 					palabrasModificadas.add(palabra);
@@ -50,9 +49,15 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	/**
-	 * armar un alista final x1 x2 x3 x4 y1 y2 y3 y4 z1 z2 z3 z4
+	 * armar un alista final 
+	 * x1 x2 x3 x4 
+	 * y1 y2 y3 y4 
+	 * z1 z2 z3 z4
 	 * 
-	 * x1 y1 z1 x2 y2 z2 x3 y3 z3 x4 y4 z4
+	 * x1 y1 z1 
+	 * x2 y2 z2 
+	 * x3 y3 z3 
+	 * x4 y4 z4
 	 * 
 	 * @param messagesMatrix
 	 * @return
@@ -87,7 +92,7 @@ public class MessageServiceImpl implements MessageService {
 				} else if (aux.isEmpty() && !message.isEmpty()) {
 					aux = message;
 				} else if (!aux.isEmpty() && !message.isEmpty()) {
-					if (!aux.equalsIgnoreCase(message)) 
+					if (!aux.equalsIgnoreCase(message))
 						log.error("Error de comparacion de mensaje. '{}' != '{}'", aux, message);
 					aux = message;
 				}
@@ -96,5 +101,5 @@ public class MessageServiceImpl implements MessageService {
 		}
 		return finalMessage.trim();
 	}
-	
+
 }

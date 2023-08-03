@@ -14,6 +14,7 @@ import ar.com.jluque.service.PositionService;
 @Service
 public class PositionServiceImpl implements PositionService {
 
+	
 	/**
 	 * Formula de triangulacion para encontrar las coordenadas del origen (x, y)
 	 * 

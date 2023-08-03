@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 import ar.com.jluque.dto.SatelliteDistanceDto;
 import ar.com.jluque.dto.SatellitePositionDto;
 import ar.com.jluque.dto.SatellitesDto;
-import ar.com.jluque.service.QuasarService;
+import ar.com.jluque.service.TopSecretService;
 
 @RestController
 @RequestMapping
 public class TopSecretController {
 
-	private QuasarService service;
+	private TopSecretService service;
 
 	@Autowired
-	public void setService(QuasarService service) {
+	public void setService(TopSecretService service) {
 		this.service = service;
 	}
 
@@ -32,7 +32,7 @@ public class TopSecretController {
 	 * 
 	 * @param satellites
 	 * @return
-	 * @exception 404 en caso de no encontrarlo
+	 * @exception TODO libreria de exepciones 404 en caso de no encontrarlo
 	 */
 	@PostMapping("/topsecret/")
 	public ResponseEntity<SatellitePositionDto> topSecret(@RequestBody SatellitesDto satellites) {

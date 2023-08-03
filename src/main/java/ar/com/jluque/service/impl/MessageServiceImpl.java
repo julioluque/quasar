@@ -54,13 +54,13 @@ public class MessageServiceImpl implements MessageService {
 	 * 
 	 * x1 y1 z1 x2 y2 z2 x3 y3 z3 x4 y4 z4
 	 * 
-	 * @param messages
+	 * @param messagesMatrix
 	 * @return
 	 */
-	public List<List<String>> matrixInversion(List<List<String>> messages) {
+	public List<List<String>> matrixInversion(List<List<String>> messagesMatrix) {
 
-		int filaSize = messages.size();
-		int columnaSize = messages.get(0).size();
+		int filaSize = messagesMatrix.size();
+		int columnaSize = messagesMatrix.get(0).size();
 
 		List<List<String>> matrizInvertida = new ArrayList<>();
 
@@ -69,47 +69,32 @@ public class MessageServiceImpl implements MessageService {
 		}
 
 		for (int newY = 0; newY < filaSize; newY++) {
-			List<String> fila = messages.get(newY);
+			List<String> fila = messagesMatrix.get(newY);
 			for (int newX = 0; newX < columnaSize; newX++) {
 				matrizInvertida.get(newX).add(fila.get(newX));
 			}
 		}
-
-		// revision matriz invertida.
-		log.info(matrizInvertida);
-
 		return matrizInvertida;
 	}
 
-	public String buildMessage(List<List<String>> messages) {
-//		x1 y1 z1
-//		x2 y2 z2
-//		x3 y3 z3
-//		x4 y4 z4
-		String message = "";
-		for (List<String> msgs : messages) {
+	public String messageBuilder(List<List<String>> messagesMatrix) {
+		String finalMessage = "";
+		for (List<String> messages : messagesMatrix) {
 			String aux = "";
-			log.info(msgs);
-			for (String m : msgs) {
-				if (aux.equals("") && m.equals("")) {
-					log.info("case 1");
-					aux = m;
-				} else if (aux.equals("") && !m.equals("")) {
-					log.info("case 2");
-					aux = m;
-				} else if (!aux.equals("") && !m.equals("")) {
-					log.info("case 3");
-					if (!aux.equalsIgnoreCase(m)) 
-						log.error("Error de comparacion de mensaje. '{}' != '{}'", aux, m);
-					aux = m;
+			for (String message : messages) {
+				if (aux.equals("") && message.equals("")) {
+					aux = message;
+				} else if (aux.equals("") && !message.equals("")) {
+					aux = message;
+				} else if (!aux.equals("") && !message.equals("")) {
+					if (!aux.equalsIgnoreCase(message)) 
+						log.error("Error de comparacion de mensaje. '{}' != '{}'", aux, message);
+					aux = message;
 				}
 			}
-			message = message.concat(aux).concat(" ");
+			finalMessage = finalMessage.concat(aux).concat(" ");
 		}
-
-		log.info("El mensaje es: {}", message);
-
-		// tomar primer elemento de cada lista. y compararlos
-		return message.trim();
+		return finalMessage.trim();
 	}
+	
 }

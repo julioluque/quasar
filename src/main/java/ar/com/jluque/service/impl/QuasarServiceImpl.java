@@ -69,13 +69,11 @@ public class QuasarServiceImpl implements QuasarService {
 	@Override
 	public SatellitePositionDto topSecret(SatellitesDto satellites) {
 
-		// TODO persistir satelite.
-
-		double[] distance = satellites.getSatellites().stream().mapToDouble(SatelliteDto::getDistance).toArray();
+		double[] distance = getDistanceArray(satellites);
 		Point p = getLocation(distance);
 
-		// getMensaje
-		String m = getMessage(null);
+		String[][] mensajes = getMessageMatrix(satellites);
+		String m = getMessage(mensajes);
 
 		PositionDto position = new PositionDto();
 		position.setX(p.getX());
@@ -86,6 +84,24 @@ public class QuasarServiceImpl implements QuasarService {
 		ret.setMessage(m);
 
 		return ret;
+	}
+
+	private double[] getDistanceArray(SatellitesDto satellites) {
+		return satellites.getSatellites().stream().mapToDouble(SatelliteDto::getDistance).toArray();
+	}
+
+	private String[][] getMessageMatrix(SatellitesDto satellites) {
+		List<String[]> mensajesList = satellites.getSatellites().stream().map(SatelliteDto::getMessage).toList();
+
+		int listSize = mensajesList.size();
+		int arrayLength = mensajesList.get(0).length;
+
+		String[][] mensajes = new String[listSize][arrayLength];
+
+		for (int i = 0; i < listSize; i++) {
+			mensajes[i] = mensajesList.get(i);
+		}
+		return mensajes;
 	}
 
 	/**

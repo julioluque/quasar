@@ -3,16 +3,20 @@
 
 Este es un proyecto es un confidencial perteneciente a la rebelion. No lo cuentes a nadie que:
 
-  - Triangula posiciones
-  - Intercepta mensajes enemigos
+  - 1 Triangula posiciones
+    - 1.1 Formula de triangulacion general
+    - 1.2 Libreria super secreta de com.lemmingapex.trilateration
+  - 2 Intercepta mensajes enemigos
+    - 2.1 Hacemos split sobre lista original
+    - 2.2 validamos tamaños de mensajes
+    - 2.2 invertimos la matriz para manipular mensajes
 
-
+## 1 Triangula posiciones
 Triangula posiciones con dos metodos:
 
-  - 1 Formula de triangulacion general
-  - 2 Libreria super secreta de com.lemmingapex.trilateration
+ 
 
-### 1 Formula de triangulacion general
+### 1.1 Formula de triangulacion general
 
 	Formula de triangulacion para encontrar las coordenadas del origen (x, y)
 		
@@ -31,7 +35,7 @@ Triangula posiciones con dos metodos:
 	#3_Coordenadas - resolvemos el sistema de ecuaciones para encontrar las
 	coordenadas (x, y) del origen.
 
-### 2 Libreria super secreta de com.lemmingapex.trilateration fuente:
+### 1.2 Libreria super secreta de com.lemmingapex.trilateration fuente:
 	https://github.com/lemmingapex/trilateration
 	
 	<dependency>
@@ -40,7 +44,26 @@ Triangula posiciones con dos metodos:
 		<version>1.0.2</version>
 	</dependency>	
 
+## 2 Intercepta mensajes enemigos
 
+
+### 2.1 Hacemos split sobre lista original
+    
+### 2.2 validamos tamaños de mensajes
+
+### 2.3 invertimos la matriz para manipular mensajes
+cambiamos:
+
+		x1 x2 x3 x4 
+		y1 y2 y3 y4
+		z1 z2 z3 z4
+
+por: 
+
+		x1 y1 z1
+		x2 y2 z2
+		x3 y3 z3
+		x4 y4 z4
 
 Para poder compilarlo con maven usamos
 

@@ -49,6 +49,9 @@ public class QuasarServiceImpl implements QuasarService {
 		ValidateMapper.amountOfWords(messages);
 
 		List<List<String>> splitedMessages = validateAndSplitWords(messages);
+		
+		List<List<String>> messagesInverted = matrixInversion(splitedMessages);
+		
 		return buildMessage(splitedMessages);
 	}
 
@@ -85,36 +88,45 @@ public class QuasarServiceImpl implements QuasarService {
 		return mensajeModificadoList;
 	}
 
-	private String buildMessage(List<List<String>> messages) {
+	/**
+	 * armar un alista final
+	 * x1 x2 x3 x4          
+	 * y1 y2 y3 y4          
+	 * z1 z2 z3 z4          
+	 *                      
+	 * x1 y1 z1             
+	 * x2 y2 z2             
+	 * x3 y3 z3             
+	 * x4 y4 z4             
+	 * 
+	 * @param messages
+	 * @return
+	 */
+	private List<List<String>> matrixInversion(List<List<String>> messages) {
 
 		int filaSize = messages.size();
 		int columnaSize = messages.get(0).size();
 
 		List<List<String>> matrizInvertida = new ArrayList<>();
 
-		for (int c = 0; c <= columnaSize; c++) {
+		for (int c = 0; c < columnaSize; c++) {
 			matrizInvertida.add(new ArrayList<>());
 		}
 
-//		armar un alista final
-//		x1 x2 x3 x4 
-//		y1 y2 y3 y4
-//		z1 z2 z3 z4
-//		
-//		x1 y1 z1
-//		x2 y2 z2
-//		x3 y3 z3
-//		x4 y4 z4
 		for (int newY = 0; newY < filaSize; newY++) {
-			List<String> row = messages.get(newY);
+			List<String> fila = messages.get(newY);
 			for (int newX = 0; newX < columnaSize; newX++) {
-				matrizInvertida.get(newX).add(row.get(newX));
+				matrizInvertida.get(newX).add(fila.get(newX));
 			}
 		}
 
 		// revision matriz invertida.
 		log.info(matrizInvertida);
-		
+
+		return matrizInvertida;
+	}
+
+	private String buildMessage(List<List<String>> messages) {
 		// tomar primer elemento de cada lista. y compararlos
 		return messages.toString();
 	}

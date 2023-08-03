@@ -47,7 +47,7 @@ public class QuasarServiceImpl implements QuasarService {
 
 		ValidateMapper.amountOfMessages(messages);
 		ValidateMapper.amountOfWords(messages);
-		
+
 		List<List<String>> splitedMessages = validateAndSplitWords(messages);
 		return buildMessage(splitedMessages);
 	}
@@ -87,10 +87,27 @@ public class QuasarServiceImpl implements QuasarService {
 	}
 
 	private String buildMessage(List<List<String>> messages) {
-		//TODO buildMessage
+
+		List<String> finalList = new ArrayList<>();
+
+		// tomar primer elemento de cada lista. y compararlos
+		// rellenar los vacios.
+		// armar un alista final
+		for (List<String> x : messages) {
+			for (String y : x) {
+//			x1 x2 x3 x4 
+//			y1 y2 y3 y4
+//			z1 z2 z3 z4
+//			
+//			x1 y1 z1
+//			x2 y2 z2
+//			x3 y3 z3
+//			x4 y4 z4
+			}
+		}
 		return messages.toString();
 	}
-	
+
 	/**
 	 * NIVEL 2
 	 */

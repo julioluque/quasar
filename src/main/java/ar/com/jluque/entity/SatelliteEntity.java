@@ -1,4 +1,4 @@
-package ar.com.jluque.repository;
+package ar.com.jluque.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,10 +18,10 @@ public class SatelliteEntity {
 	@Column(name = "SAT_NAME", unique = true, nullable = false)
 	private String name;
 
-	@Column(name = "SAT_DIST", unique = false, nullable = false)
-	private double distance;
+	@Column(name = "SAT_CORD_X", unique = false, nullable = false)
+	private double x;
 
-	@Column(name = "SAT_MSG", unique = false, nullable = false)
-	private String[] message;
+	@Column(name = "SAT_CORD_Y", unique = false, nullable = false)
+	private double y;
 
 }

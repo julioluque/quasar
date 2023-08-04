@@ -61,8 +61,7 @@ public class TopSecretServiceImpl implements TopSecretService {
 		ret.setPosition(position);
 		ret.setMessage(m);
 
-		SatelliteEntity satelliteTransmiter = recoverSatelliteData("TRANSMITER");
-		saveTransmiterData(ret, satelliteTransmiter);
+		saveTransmiterData(ret, satelliteEntity.get(3));
 
 		// TODO agregar libreria de exepciones: para lanzar 404
 
@@ -75,10 +74,6 @@ public class TopSecretServiceImpl implements TopSecretService {
 		satelliteEntity.setMessage(satellitePositionDto.getMessage());
 
 		repository.save(satelliteEntity);
-	}
-
-	private SatelliteEntity recoverSatelliteData(String name) {
-		return repository.findByName(name);
 	}
 
 	private List<SatelliteEntity> recoverSatellitesData() {

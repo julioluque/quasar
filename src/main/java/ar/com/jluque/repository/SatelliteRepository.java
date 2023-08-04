@@ -8,4 +8,5 @@ import ar.com.jluque.entity.SatelliteEntity;
 @Repository
 public interface SatelliteRepository extends JpaRepository<SatelliteEntity, String> {
 
+	public SatelliteEntity findByName(String name);
 }

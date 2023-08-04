@@ -6,8 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ar.com.jluque.entity.SatelliteEntity;
 import ar.com.jluque.mapper.QuasarMapper;
 import ar.com.jluque.mapper.ValidateMapper;
+import ar.com.jluque.repository.SatelliteRepository;
 import ar.com.jluque.service.MessageService;
 import ar.com.jluque.service.PositionService;
 import ar.com.jluque.service.QuasarService;
@@ -21,6 +23,13 @@ public class QuasarServiceImpl implements QuasarService {
 
 	private PositionService positionService;
 
+	private SatelliteRepository repository;
+	
+	@Autowired
+	public void setRepository(SatelliteRepository repository) {
+		this.repository = repository;
+	}
+	
 	@Autowired
 	public void setMessageService(MessageService messageService) {
 		this.messageService = messageService;
@@ -37,7 +46,12 @@ public class QuasarServiceImpl implements QuasarService {
 		ValidateMapper.amountOfSatellites(distances);
 
 		double[][] positions = QuasarMapper.getPositions();
+		
+		List<SatelliteEntity> satelliteEntityList = repository.findAll();
+		double[][] positionsV2 = QuasarMapper.getPositionsV2(satelliteEntityList);
+		
 
+		
 		Point posicionesLibreria = positionService.triangulacionLibrary(positions, distances);
 		Point posicionesFormula = positionService.triangularFormula(positions, distances);
 		log.info("posicionesUsandoLibreria: {} ", posicionesLibreria);

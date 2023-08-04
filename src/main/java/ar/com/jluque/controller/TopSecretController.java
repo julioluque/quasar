@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.com.jluque.dto.SatelliteDistanceDto;
+import ar.com.jluque.dto.SatelliteDto;
 import ar.com.jluque.dto.SatellitePositionDto;
 import ar.com.jluque.dto.SatellitesDto;
 import ar.com.jluque.service.TopSecretService;
@@ -48,7 +49,8 @@ public class TopSecretController {
 	@PutMapping("/topsecret_split/{satellite_name}")
 	public ResponseEntity<String> topSecretUpdate(@PathVariable(value = "satellite_name") String name,
 			@RequestBody SatelliteDistanceDto satellites) {
-		service.topSecretUpdate(satellites);
+
+		service.topSecretUpdate(name, satellites);
 		return new ResponseEntity<>("Updated", HttpStatus.OK);
 	}
 

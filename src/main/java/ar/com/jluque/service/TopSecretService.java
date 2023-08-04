@@ -8,7 +8,7 @@ public interface TopSecretService {
 
 	public SatellitePositionDto topSecret(SatellitesDto satellites);
 
-	public void topSecretUpdate(SatelliteDistanceDto satellites);
+	public void topSecretUpdate(String name, SatelliteDistanceDto satellites);
 
 	public SatellitePositionDto getTopSecret();
 }

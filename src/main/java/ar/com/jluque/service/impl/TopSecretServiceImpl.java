@@ -11,6 +11,8 @@ import ar.com.jluque.dto.SatelliteDistanceDto;
 import ar.com.jluque.dto.SatelliteDto;
 import ar.com.jluque.dto.SatellitePositionDto;
 import ar.com.jluque.dto.SatellitesDto;
+import ar.com.jluque.entity.SatelliteEntity;
+import ar.com.jluque.repository.SatelliteRepository;
 import ar.com.jluque.service.QuasarService;
 import ar.com.jluque.service.TopSecretService;
 
@@ -18,6 +20,13 @@ import ar.com.jluque.service.TopSecretService;
 public class TopSecretServiceImpl implements TopSecretService {
 
 	private QuasarService service;
+
+	private SatelliteRepository repository;
+
+	@Autowired
+	public void setRepository(SatelliteRepository repository) {
+		this.repository = repository;
+	}
 
 	@Autowired
 	public void setService(QuasarService service) {
@@ -50,13 +59,22 @@ public class TopSecretServiceImpl implements TopSecretService {
 	}
 
 	/**
-	 * NIVEL 3
-	 * TODO Primero: guardar coordenadas de satellites en DB
+	 * NIVEL 3 TODO Primero: guardar coordenadas de satellites en DB - se resolvio
+	 * persistiendo en DB por fuera. Se podria agregar un post que de el alta
+	 * 
 	 */
 	@Override
-	public void topSecretUpdate(SatelliteDistanceDto satellites) {
+	public void topSecretUpdate(String name, SatelliteDistanceDto satelliteDistanceDto) {
+
+		SatelliteEntity satelliteEntity = repository.findByName(name);
+
+		SatelliteDto satellite = new SatelliteDto();
+		satellite.setName(name);
+		satellite.setDistance(satelliteDistanceDto.getDistance());
+		satellite.setMessage(satelliteDistanceDto.getMessage());
+
 		// TODO update la coordenada de cada satelite con este servicio
-		
+
 	}
 
 	@Override

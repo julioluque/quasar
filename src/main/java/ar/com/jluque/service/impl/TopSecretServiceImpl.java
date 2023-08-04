@@ -93,8 +93,8 @@ public class TopSecretServiceImpl implements TopSecretService {
 	}
 
 	/**
-	 * NIVEL 3 TODO Primero: guardar coordenadas de satellites en DB - se resolvio
-	 * persistiendo en DB por fuera. Se podria agregar un post que de el alta
+	 * NIVEL 3 persistiendo en DB por fuera. Se podria agregar un post que de el
+	 * alta
 	 * 
 	 */
 	@Override
@@ -112,9 +112,6 @@ public class TopSecretServiceImpl implements TopSecretService {
 		SatellitesDto satellites = new SatellitesDto();
 		satellites.setSatellites(satelliteList);
 
-		// TODO Deberia persistir esta info completa en un nuevo entity contando el
-		// objeto triangulado como un 4to punto
-
 		// TODO En esta prueba llamo al servicio anterior pero con las nuevas
 		// distancias. aunque no se pide el calculo sino la actualizacion, Creo qeu
 		// deberia hacer neuvamente el calculo.
@@ -123,18 +120,17 @@ public class TopSecretServiceImpl implements TopSecretService {
 		// si seria posible calcular el nuevo satelite.
 		SatellitePositionDto topSecret = topSecret(satellites);
 
+		// TODO update la coordenada de cada satelite con este servicio
+
 		SatelliteEntity satelliteEntity = new SatelliteEntity();
 		satelliteEntity.setName(name);
 		satelliteEntity.setX(topSecret.getPosition().getX());
 		satelliteEntity.setY(topSecret.getPosition().getY());
-
-		// TODO update la coordenada de cada satelite con este servicio
 		repository.save(satelliteEntity);
 	}
 
 	@Override
 	public SatellitePositionDto getTopSecret() {
-		// TODO persistir satelite.
 
 		// getLocation
 		Point p = service.getLocation(null);

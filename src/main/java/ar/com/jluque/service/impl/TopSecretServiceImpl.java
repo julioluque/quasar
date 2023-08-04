@@ -16,10 +16,8 @@ import ar.com.jluque.entity.SatelliteEntity;
 import ar.com.jluque.repository.SatelliteRepository;
 import ar.com.jluque.service.QuasarService;
 import ar.com.jluque.service.TopSecretService;
-import lombok.extern.log4j.Log4j2;
 
 @Service
-@Log4j2
 public class TopSecretServiceImpl implements TopSecretService {
 
 	private QuasarService service;

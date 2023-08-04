@@ -21,4 +21,6 @@ public class SatelliteEntity {
 	@Column(name = "SAT_CORD_Y", unique = false, nullable = false)
 	private double y;
 
+	@Column(name = "SAT_MESG_ARRAY", unique = false, nullable = false)
+	private String message;
 }

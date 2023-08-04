@@ -16,8 +16,10 @@ import ar.com.jluque.entity.SatelliteEntity;
 import ar.com.jluque.repository.SatelliteRepository;
 import ar.com.jluque.service.QuasarService;
 import ar.com.jluque.service.TopSecretService;
+import lombok.extern.log4j.Log4j2;
 
 @Service
+@Log4j2
 public class TopSecretServiceImpl implements TopSecretService {
 
 	private QuasarService service;
@@ -47,6 +49,10 @@ public class TopSecretServiceImpl implements TopSecretService {
 		position.setX(p.getX());
 		position.setY(p.getY());
 
+		// Persistir mensajes:
+		List<SatelliteEntity> satelliteEntity = recoverSatellitesData();
+		saveMessages(satellites, satelliteEntity);
+
 		String[][] mensajes = getMessageMatrix(satellites);
 		String m = service.getMessage(mensajes);
 
@@ -57,6 +63,21 @@ public class TopSecretServiceImpl implements TopSecretService {
 		// TODO agregar libreria de exepciones: para lanzar 404
 
 		return ret;
+	}
+
+	private List<SatelliteEntity> recoverSatellitesData() {
+		return repository.findAll();
+	}
+
+	private void saveMessages(SatellitesDto satellites, List<SatelliteEntity> entity) {
+		for (SatelliteEntity e : entity) {
+			for (SatelliteDto s : satellites.getSatellites()) {
+				if (s.getName().equalsIgnoreCase(e.getName())) {
+					e.setMessage(String.join(",", s.getMessage()));
+				}
+			}
+			repository.save(e);
+		}
 	}
 
 	/**

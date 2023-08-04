@@ -14,7 +14,7 @@ public class QuasarMapper {
 
 		double[][] matrizCoordenadas = new double[3][2];
 
-		IntStream.range(0, satelliteEntityList.size()).forEach(i -> {
+		IntStream.range(0, satelliteEntityList.size()-1).forEach(i -> {
 			SatelliteEntity satellite = satelliteEntityList.get(i);
 			matrizCoordenadas[i][0] = satellite.getX();
 			matrizCoordenadas[i][1] = satellite.getY();

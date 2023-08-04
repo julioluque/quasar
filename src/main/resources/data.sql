@@ -12,4 +12,4 @@ values
 	('KENOBI', -500.0, -200.0),
 	('SKYWALKER', 100.0, -100.0),
 	('SATO', 500.0, 100.0),
-	('TRANSMITER', null, null);
+	('TRANSMITER', 0, 0);

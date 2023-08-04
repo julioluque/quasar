@@ -54,7 +54,6 @@ public class TopSecretServiceImpl implements TopSecretService {
 		satelliteEntity = buildEntity(satellites, satelliteEntity);
 		saveMessages(satelliteEntity);
 
-		
 		String[][] mensajes = getMessageMatrix(satellites);
 		String m = service.getMessage(mensajes);
 
@@ -62,9 +61,24 @@ public class TopSecretServiceImpl implements TopSecretService {
 		ret.setPosition(position);
 		ret.setMessage(m);
 
+		SatelliteEntity satelliteTransmiter = recoverSatelliteData("TRANSMITER");
+		saveTransmiterData(ret, satelliteTransmiter);
+
 		// TODO agregar libreria de exepciones: para lanzar 404
 
 		return ret;
+	}
+
+	private void saveTransmiterData(SatellitePositionDto satellitePositionDto, SatelliteEntity satelliteEntity) {
+		satelliteEntity.setX(satellitePositionDto.getPosition().getX());
+		satelliteEntity.setY(satellitePositionDto.getPosition().getX());
+		satelliteEntity.setMessage(satellitePositionDto.getMessage());
+
+		repository.save(satelliteEntity);
+	}
+
+	private SatelliteEntity recoverSatelliteData(String name) {
+		return repository.findByName(name);
 	}
 
 	private List<SatelliteEntity> recoverSatellitesData() {
@@ -72,16 +86,13 @@ public class TopSecretServiceImpl implements TopSecretService {
 	}
 
 	private List<SatelliteEntity> buildEntity(SatellitesDto satellites, List<SatelliteEntity> satelliteEntity) {
-		return  satelliteEntity.stream()
-				.map(e -> { 
-					satellites.getSatellites().stream()
-						.filter(s -> s.getName().equalsIgnoreCase(e.getName()))
-						.findFirst()
-						.ifPresent(s -> e.setMessage(String.join(",", s.getMessage())));
-						return e;})
-				.toList();
+		return satelliteEntity.stream().map(e -> {
+			satellites.getSatellites().stream().filter(s -> s.getName().equalsIgnoreCase(e.getName())).findFirst()
+					.ifPresent(s -> e.setMessage(String.join(",", s.getMessage())));
+			return e;
+		}).toList();
 	}
-	
+
 	private void saveMessages(List<SatelliteEntity> satelliteEntity) {
 		repository.saveAll(satelliteEntity);
 	}

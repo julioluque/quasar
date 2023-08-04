@@ -51,8 +51,10 @@ public class TopSecretServiceImpl implements TopSecretService {
 
 		// Persistir mensajes:
 		List<SatelliteEntity> satelliteEntity = recoverSatellitesData();
-		saveMessages(satellites, satelliteEntity);
+		satelliteEntity = buildEntity(satellites, satelliteEntity);
+		saveMessages(satelliteEntity);
 
+		
 		String[][] mensajes = getMessageMatrix(satellites);
 		String m = service.getMessage(mensajes);
 
@@ -69,15 +71,19 @@ public class TopSecretServiceImpl implements TopSecretService {
 		return repository.findAll();
 	}
 
-	private void saveMessages(SatellitesDto satellites, List<SatelliteEntity> entity) {
-		for (SatelliteEntity e : entity) {
-			for (SatelliteDto s : satellites.getSatellites()) {
-				if (s.getName().equalsIgnoreCase(e.getName())) {
-					e.setMessage(String.join(",", s.getMessage()));
-				}
-			}
-			repository.save(e);
-		}
+	private List<SatelliteEntity> buildEntity(SatellitesDto satellites, List<SatelliteEntity> satelliteEntity) {
+		return  satelliteEntity.stream()
+				.map(e -> { 
+					satellites.getSatellites().stream()
+						.filter(s -> s.getName().equalsIgnoreCase(e.getName()))
+						.findFirst()
+						.ifPresent(s -> e.setMessage(String.join(",", s.getMessage())));
+						return e;})
+				.toList();
+	}
+	
+	private void saveMessages(List<SatelliteEntity> satelliteEntity) {
+		repository.saveAll(satelliteEntity);
 	}
 
 	/**

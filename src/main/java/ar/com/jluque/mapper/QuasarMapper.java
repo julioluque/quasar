@@ -29,19 +29,21 @@ public class QuasarMapper {
 		double satoX3 = 0;
 		double satoY3 = 0;
 
+		
 		for (SatelliteEntity satelliteEntity : satelliteEntityList) {
-			if (satelliteEntity.getName().equalsIgnoreCase("kenobi")) {
+			if (satelliteEntity.getName().equalsIgnoreCase("KENOBI")) {
 				kenoX1 = satelliteEntity.getX();
 				kenoY1 = satelliteEntity.getY();
-			} else if (satelliteEntity.getName().equalsIgnoreCase("skaywalker")) {
+			} else if (satelliteEntity.getName().equalsIgnoreCase("SKYWALKER")) {
 				skayX2 = satelliteEntity.getX();
 				skayY2 = satelliteEntity.getY();
-			} else if (satelliteEntity.getName().equalsIgnoreCase("sato")) {
+			} else if (satelliteEntity.getName().equalsIgnoreCase("SATO")) {
 				satoX3 = satelliteEntity.getX();
 				satoY3 = satelliteEntity.getY();
 			}
 		}
 
+		
 		return new double[][] { { kenoX1, kenoY1 }, { skayX2, skayY2 }, { satoX3, satoY3 } };
 	}
 

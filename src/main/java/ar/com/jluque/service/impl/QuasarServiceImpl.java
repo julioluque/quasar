@@ -46,10 +46,11 @@ public class QuasarServiceImpl implements QuasarService {
 		ValidateMapper.amountOfSatellites(distances);
 
 		double[][] positions = QuasarMapper.getPositions();
+		System.out.println(positions);
 		
 		List<SatelliteEntity> satelliteEntityList = repository.findAll();
-		double[][] positionsV2 = QuasarMapper.getPositionsV2(satelliteEntityList);
-		
+		double[][] positionsv2 = QuasarMapper.getPositionsV2(satelliteEntityList);
+		System.out.println(positionsv2);
 
 		
 		Point posicionesLibreria = positionService.triangulacionLibrary(positions, distances);

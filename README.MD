@@ -15,12 +15,11 @@ Este es un proyecto es un confidencial perteneciente a la rebelion. No lo cuente
   - 1.3 Ejecucion del programa
 
 - LEVEL 2
-  - 2.1 
-    - 2.1.1 
-    - 2.1.2 
-  - 2.2 
-    - 2.2.1
-    - 2.2.2
+  - 2.1 Descripcion
+  - 2.2 Connection
+    - 2.2.1 host
+    - 2.2.2 requestbody
+    - 2.2.3 responsebody
 
 - LEVEL 3
   - 2.1
@@ -104,12 +103,16 @@ Asi podemos manipuar el arra y mensajes y compararlos
 
 
 ## LEVEL 2
+### 2.1 Descripcion
 - Servicio POST.
 - Consume los servicios del nivel 1
+### 2.2 Connection
+
+#### 2.2.1 Host
 - BASEURL: localhost:8080 
 - http://BASEURL/topsecret/
 
-RequestBody.
+#### 2.2.2 RequestBody.
 
     {
         "satellites": [
@@ -149,7 +152,7 @@ RequestBody.
         ]
     }
 
-ResponseBody
+#### 2.2.3 ResponseBody
 
     {
         "position": {
@@ -161,6 +164,15 @@ ResponseBody
     
 
 ## LEVEL 3
+
+
+## DATABASE
+
+- H2
+- http://localhost:8080/h2-console/
+- Username: sa
+- Password: sa
+- 
 
 ## Ejecucion del programa
 Para poder compilarlo con maven usamos

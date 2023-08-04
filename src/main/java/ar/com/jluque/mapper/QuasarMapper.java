@@ -7,7 +7,9 @@ import static ar.com.jluque.utils.QuasarConstant.SATELLITE_SKYWALKER;
 import java.util.List;
 
 import ar.com.jluque.entity.SatelliteEntity;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 public class QuasarMapper {
 
 	public QuasarMapper() {
@@ -20,31 +22,26 @@ public class QuasarMapper {
 
 	public static double[][] getPositionsV2(List<SatelliteEntity> satelliteEntityList) {
 
-		double kenoX1 = 0;
-		double kenoY1 = 0;
-
-		double skayX2 = 0;
-		double skayY2 = 0;
-
-		double satoX3 = 0;
-		double satoY3 = 0;
-
+		double[][] matrizCoordenadas = new double[3][2];
 		
-		for (SatelliteEntity satelliteEntity : satelliteEntityList) {
-			if (satelliteEntity.getName().equalsIgnoreCase("KENOBI")) {
-				kenoX1 = satelliteEntity.getX();
-				kenoY1 = satelliteEntity.getY();
-			} else if (satelliteEntity.getName().equalsIgnoreCase("SKYWALKER")) {
-				skayX2 = satelliteEntity.getX();
-				skayY2 = satelliteEntity.getY();
-			} else if (satelliteEntity.getName().equalsIgnoreCase("SATO")) {
-				satoX3 = satelliteEntity.getX();
-				satoY3 = satelliteEntity.getY();
+		for (int i = 0; i < satelliteEntityList.size(); i++) {
+			SatelliteEntity satellite = satelliteEntityList.get(i);
+
+			if (satellite.getName().equalsIgnoreCase("KENOBI")) {
+				matrizCoordenadas[i][0] = satellite.getX();
+				matrizCoordenadas[i][1] = satellite.getX();
+			} else if (satellite.getName().equalsIgnoreCase("SKYWALKER")) {
+				matrizCoordenadas[i][0] = satellite.getX();
+				matrizCoordenadas[i][1] = satellite.getY();
+			} else if (satellite.getName().equalsIgnoreCase("SATO")) {
+				matrizCoordenadas[i][0] = satellite.getX();
+				matrizCoordenadas[i][1] = satellite.getY();
+			} else {
+				log.error("ERROR");
 			}
 		}
 
-		
-		return new double[][] { { kenoX1, kenoY1 }, { skayX2, skayY2 }, { satoX3, satoY3 } };
+		return matrizCoordenadas;
 	}
 
 }

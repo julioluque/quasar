@@ -67,24 +67,36 @@ public class TopSecretServiceImpl implements TopSecretService {
 	@Override
 	public void topSecretUpdate(String name, SatelliteDistanceDto satelliteDistanceDto) {
 
-		SatelliteEntity satelliteEntity = repository.findByName(name);
-
-		// persistir SatelliteDto
+		// Armo el satelite perteneciente a esta peticion.
 		SatelliteDto satellite = new SatelliteDto();
 		satellite.setName(name);
 		satellite.setDistance(satelliteDistanceDto.getDistance());
 		satellite.setMessage(satelliteDistanceDto.getMessage());
-		
+
 		List<SatelliteDto> satelliteList = new ArrayList<>();
 		satelliteList.add(satellite);
-		
+
 		SatellitesDto satellites = new SatellitesDto();
 		satellites.setSatellites(satelliteList);
-		
-		SatellitePositionDto topSecret = topSecret(satellites);
-		
-		// TODO update la coordenada de cada satelite con este servicio
 
+		// TODO Deberia persistir esta info completa en un nuevo entity contando el
+		// objeto triangulado como un 4to punto
+
+		// TODO En esta prueba llamo al servicio anterior pero con las nuevas
+		// distancias. aunque no se pide el calculo sino la actualizacion, Creo qeu
+		// deberia hacer neuvamente el calculo.
+
+		// TODO teniendo el 4to punto, ahora si con la variacion de una distancia ahora
+		// si seria posible calcular el nuevo satelite.
+		SatellitePositionDto topSecret = topSecret(satellites);
+
+		SatelliteEntity satelliteEntity = new SatelliteEntity();
+		satelliteEntity.setName(name);
+		satelliteEntity.setX(topSecret.getPosition().getX());
+		satelliteEntity.setY(topSecret.getPosition().getY());
+
+		// TODO update la coordenada de cada satelite con este servicio
+		repository.save(satelliteEntity);
 	}
 
 	@Override

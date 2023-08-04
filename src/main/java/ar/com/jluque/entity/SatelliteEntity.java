@@ -14,7 +14,6 @@ import lombok.Data;
 public class SatelliteEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "SAT_NAME", unique = true, nullable = false)
 	private String name;
 

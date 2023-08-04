@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import ar.com.jluque.entity.SatelliteEntity;
-import lombok.extern.log4j.Log4j2;
 
-@Log4j2
 public class QuasarMapper {
 
 	public QuasarMapper() {

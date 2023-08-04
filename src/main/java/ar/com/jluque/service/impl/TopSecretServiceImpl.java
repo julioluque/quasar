@@ -1,6 +1,7 @@
 package ar.com.jluque.service.impl;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,11 +69,20 @@ public class TopSecretServiceImpl implements TopSecretService {
 
 		SatelliteEntity satelliteEntity = repository.findByName(name);
 
+		// persistir SatelliteDto
 		SatelliteDto satellite = new SatelliteDto();
 		satellite.setName(name);
 		satellite.setDistance(satelliteDistanceDto.getDistance());
 		satellite.setMessage(satelliteDistanceDto.getMessage());
-
+		
+		List<SatelliteDto> satelliteList = new ArrayList<>();
+		satelliteList.add(satellite);
+		
+		SatellitesDto satellites = new SatellitesDto();
+		satellites.setSatellites(satelliteList);
+		
+		SatellitePositionDto topSecret = topSecret(satellites);
+		
 		// TODO update la coordenada de cada satelite con este servicio
 
 	}

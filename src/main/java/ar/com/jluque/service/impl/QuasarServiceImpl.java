@@ -53,7 +53,7 @@ public class QuasarServiceImpl implements QuasarService {
 		log.info("posicionesUsandoLibreria: {} ", posicionesLibreria);
 		log.info("posicionesUsandoformula: {} ", posicionesFormula);
 
-		return posicionesFormula;
+		return posicionesLibreria;
 	}
 
 	@Override

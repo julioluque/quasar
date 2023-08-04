@@ -24,12 +24,12 @@ public class QuasarServiceImpl implements QuasarService {
 	private PositionService positionService;
 
 	private SatelliteRepository repository;
-	
+
 	@Autowired
 	public void setRepository(SatelliteRepository repository) {
 		this.repository = repository;
 	}
-	
+
 	@Autowired
 	public void setMessageService(MessageService messageService) {
 		this.messageService = messageService;
@@ -45,14 +45,9 @@ public class QuasarServiceImpl implements QuasarService {
 
 		ValidateMapper.amountOfSatellites(distances);
 
-		double[][] positions = QuasarMapper.getPositions();
-		System.out.println(positions);
-		
 		List<SatelliteEntity> satelliteEntityList = repository.findAll();
-		double[][] positionsv2 = QuasarMapper.getPositionsV2(satelliteEntityList);
-		System.out.println(positionsv2);
+		double[][] positions = QuasarMapper.getPositions(satelliteEntityList);
 
-		
 		Point posicionesLibreria = positionService.triangulacionLibrary(positions, distances);
 		Point posicionesFormula = positionService.triangularFormula(positions, distances);
 		log.info("posicionesUsandoLibreria: {} ", posicionesLibreria);
@@ -72,6 +67,5 @@ public class QuasarServiceImpl implements QuasarService {
 
 		return messageService.messageBuilder(messagesInverted);
 	}
-
 
 }

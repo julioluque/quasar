@@ -26,19 +26,8 @@ public class QuasarMapper {
 		
 		for (int i = 0; i < satelliteEntityList.size(); i++) {
 			SatelliteEntity satellite = satelliteEntityList.get(i);
-
-			if (satellite.getName().equalsIgnoreCase("KENOBI")) {
-				matrizCoordenadas[i][0] = satellite.getX();
-				matrizCoordenadas[i][1] = satellite.getX();
-			} else if (satellite.getName().equalsIgnoreCase("SKYWALKER")) {
 				matrizCoordenadas[i][0] = satellite.getX();
 				matrizCoordenadas[i][1] = satellite.getY();
-			} else if (satellite.getName().equalsIgnoreCase("SATO")) {
-				matrizCoordenadas[i][0] = satellite.getX();
-				matrizCoordenadas[i][1] = satellite.getY();
-			} else {
-				log.error("ERROR");
-			}
 		}
 
 		return matrizCoordenadas;

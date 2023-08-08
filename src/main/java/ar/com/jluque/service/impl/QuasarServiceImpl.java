@@ -70,7 +70,7 @@ public class QuasarServiceImpl implements QuasarService {
 		ValidateMapper.amountOfMessages(messages);
 		ValidateMapper.amountOfWords(messages);
 
-		List<List<String>> splitedMessages = messageService.validateAndSplitWords(messages);
+		List<List<String>> splitedMessages = messageService.validateAndReplaceWords(messages);
 		List<List<String>> messagesInverted = messageService.matrixInversion(splitedMessages);
 
 		return messageService.messageBuilder(messagesInverted);

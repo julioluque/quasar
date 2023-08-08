@@ -33,7 +33,7 @@ public class PositionServiceImpl implements PositionService {
 	 * #3_Coordenadas - resolvemos el sistema de ecuaciones para encontrar las
 	 * coordenadas (x, y) del origen.
 	 */
-	public Point triangularFormula(double[][] positions, double[] distances) throws Exception {
+	public Point triangularFormula(double[][] positions, double[] distances) throws QuasarBuissinesException {
 
 		try {
 			// mapear cordenadas
@@ -63,7 +63,7 @@ public class PositionServiceImpl implements PositionService {
 			// 3_Coordenadas fuente o coordenadas del mensaje
 			double x = (C * E - F * B) / (E * A - B * D);
 			double y = (C - A * x) / B;
-			
+
 			return new Point((int) x, (int) y);
 
 		} catch (Exception e) {
@@ -76,12 +76,16 @@ public class PositionServiceImpl implements PositionService {
 	 * 
 	 * @Libreria: https://github.com/lemmingapex/trilateration
 	 */
-	public Point triangulacionLibrary(double[][] positions, double[] distances) {
-		NonLinearLeastSquaresSolver solver = new NonLinearLeastSquaresSolver(
-				new TrilaterationFunction(positions, distances), new LevenbergMarquardtOptimizer());
-		Optimum optimum = solver.solve();
-		double[] centroid = optimum.getPoint().toArray();
+	public Point triangulacionLibrary(double[][] positions, double[] distances) throws QuasarBuissinesException {
+		try {
+			NonLinearLeastSquaresSolver solver = new NonLinearLeastSquaresSolver(
+					new TrilaterationFunction(positions, distances), new LevenbergMarquardtOptimizer());
+			Optimum optimum = solver.solve();
+			double[] centroid = optimum.getPoint().toArray();
 
-		return new Point((int) centroid[0], (int) centroid[1]);
+			return new Point((int) centroid[0], (int) centroid[1]);
+		} catch (Exception e) {
+			throw new QuasarBuissinesException("Error al usar la libreria lemmingapex para la trilateracion");
+		}
 	}
 }

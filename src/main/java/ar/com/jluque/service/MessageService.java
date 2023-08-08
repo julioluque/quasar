@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface MessageService {
 
-	public List<List<String>> validateAndSplitWords(String[][] wordMatrix);
+	public List<List<String>> validateAndReplaceWords(String[][] wordMatrix);
 
 	public List<List<String>> matrixInversion(List<List<String>> messages);
 

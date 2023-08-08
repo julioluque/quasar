@@ -12,7 +12,8 @@ public class QuasarMapper {
 	public QuasarMapper() {
 	}
 
-	public static double[][] getPositions(List<SatelliteEntity> satelliteEntityList) throws IllegalArgumentException {
+	public static double[][] getPositions(List<SatelliteEntity> satelliteEntityList)
+			throws IllegalArgumentCustomException {
 
 		double[][] matrizCoordenadas = new double[3][2];
 

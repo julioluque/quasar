@@ -137,6 +137,16 @@ public class TopSecretServiceImpl implements TopSecretService {
 		repository.save(satelliteEntity);
 	}
 
+	public void topSecretUpdateV2(String name, SatelliteDistanceDto satelliteDistanceDto) {
+		// armar una nueva tabla con las distancias y mensajes
+		// esta tabla debe ser independiente de las otras
+		// sobre esta deberia correr un schedule
+		// la tabla debe esperar que se completen con los tres satelites
+		// una vez completados los satelites. debe llamar al servicio topSecret
+		// la respuesta debe ser la misma que topSecret
+		// WARMING: ACTUALIAR LA POSICION DE CADA SATELLITE?
+	}
+
 	@Override
 	public SatellitePositionDto getTopSecret() {
 

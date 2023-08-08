@@ -2,18 +2,17 @@ package ar.com.jluque.service.impl;
 
 import java.awt.Point;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ar.com.jluque.dao.DaoHandler;
 import ar.com.jluque.entity.SatelliteEntity;
 import ar.com.jluque.exception.custom.IllegalArgumentCustomException;
 import ar.com.jluque.exception.custom.NotFoundCustomException;
 import ar.com.jluque.exception.custom.QuasarBuissinesException;
 import ar.com.jluque.mapper.QuasarMapper;
 import ar.com.jluque.mapper.ValidateMapper;
-import ar.com.jluque.repository.SatelliteRepository;
 import ar.com.jluque.service.MessageService;
 import ar.com.jluque.service.PositionService;
 import ar.com.jluque.service.QuasarService;
@@ -27,11 +26,11 @@ public class QuasarServiceImpl implements QuasarService {
 
 	private PositionService positionService;
 
-	private SatelliteRepository repository;
+	private DaoHandler dao;
 
 	@Autowired
-	public void setRepository(SatelliteRepository repository) {
-		this.repository = repository;
+	public void setDao(DaoHandler dao) {
+		this.dao = dao;
 	}
 
 	@Autowired
@@ -50,7 +49,7 @@ public class QuasarServiceImpl implements QuasarService {
 
 		ValidateMapper.amountOfSatellites(distances);
 
-		List<SatelliteEntity> satelliteEntityList = findAllSatellites();
+		List<SatelliteEntity> satelliteEntityList = dao.recoverSatellitesData();
 		double[][] positions = QuasarMapper.getPositions(satelliteEntityList);
 
 		Point posicionesLibreria = positionService.triangulacionLibrary(positions, distances);
@@ -59,12 +58,6 @@ public class QuasarServiceImpl implements QuasarService {
 		log.info("posicionesUsandoformula: {} ", posicionesFormula);
 
 		return posicionesLibreria;
-	}
-
-	private List<SatelliteEntity> findAllSatellites() throws NotFoundCustomException {
-		Optional<List<SatelliteEntity>> entityList = Optional.ofNullable(repository.findAll());
-		entityList.orElseThrow(() -> new NotFoundCustomException("No se encontraron Satellites en la base de datos"));
-		return entityList.get();
 	}
 
 	@Override

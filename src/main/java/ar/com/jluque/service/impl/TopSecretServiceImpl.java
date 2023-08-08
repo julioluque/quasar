@@ -3,13 +3,13 @@ package ar.com.jluque.service.impl;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import ar.com.jluque.dao.DaoHandler;
 import ar.com.jluque.dto.PositionDto;
 import ar.com.jluque.dto.SatelliteDistanceDto;
 import ar.com.jluque.dto.SatelliteDto;
@@ -17,7 +17,6 @@ import ar.com.jluque.dto.SatellitePositionDto;
 import ar.com.jluque.dto.SatellitesDto;
 import ar.com.jluque.entity.SatelliteEntity;
 import ar.com.jluque.exception.custom.NotFoundCustomException;
-import ar.com.jluque.repository.SatelliteRepository;
 import ar.com.jluque.service.QuasarService;
 import ar.com.jluque.service.TopSecretService;
 import lombok.extern.log4j.Log4j2;
@@ -28,13 +27,13 @@ public class TopSecretServiceImpl implements TopSecretService {
 
 	private QuasarService service;
 
-	private SatelliteRepository repository;
-
+	private DaoHandler dao;
+	
 	@Autowired
-	public void setRepository(SatelliteRepository repository) {
-		this.repository = repository;
+	public void setDao(DaoHandler dao) {
+		this.dao = dao;
 	}
-
+	
 	@Autowired
 	public void setService(QuasarService service) {
 		this.service = service;
@@ -55,9 +54,9 @@ public class TopSecretServiceImpl implements TopSecretService {
 		position.setX(p.getX());
 		position.setY(p.getY());
 
-		List<SatelliteEntity> satelliteEntity = recoverSatellitesData();
+		List<SatelliteEntity> satelliteEntity = dao.recoverSatellitesData();
 		satelliteEntity = buildEntity(satellites, satelliteEntity);
-		saveMessages(satelliteEntity);
+		dao.saveMessages(satelliteEntity);
 
 		String[][] mensajes = getMessageMatrix(satellites);
 		String m = service.getMessage(mensajes);
@@ -66,26 +65,15 @@ public class TopSecretServiceImpl implements TopSecretService {
 		ret.setPosition(position);
 		ret.setMessage(m);
 
-		saveTransmiterData(ret, satelliteEntity.get(3));
+		dao.saveTransmiterData(ret, satelliteEntity.get(3));
 
 		// TODO agregar libreria de exepciones: para lanzar 404
 
 		return ret;
 	}
 
-	private void saveTransmiterData(SatellitePositionDto satellitePositionDto, SatelliteEntity satelliteEntity) {
-		satelliteEntity.setX(satellitePositionDto.getPosition().getX());
-		satelliteEntity.setY(satellitePositionDto.getPosition().getY());
-		satelliteEntity.setMessage(satellitePositionDto.getMessage());
 
-		repository.save(satelliteEntity);
-	}
 
-	private List<SatelliteEntity> recoverSatellitesData() {
-		Optional<List<SatelliteEntity>> entityList = Optional.ofNullable(repository.findAll());
-		entityList.orElseThrow(() -> new NotFoundCustomException("No se encontraron Satellites en la base de datos"));
-		return entityList.get();
-	}
 
 	/**
 	 * Mergeamos los satellites del input con los que fueron recuperados por base de
@@ -103,9 +91,7 @@ public class TopSecretServiceImpl implements TopSecretService {
 		}).toList();
 	}
 
-	private void saveMessages(List<SatelliteEntity> satelliteEntity) throws DataAccessException{
-			repository.saveAll(satelliteEntity);
-	}
+
 
 	/**
 	 * NIVEL 3 persistiendo en DB por fuera. Se podria agregar un post que de el
@@ -143,7 +129,7 @@ public class TopSecretServiceImpl implements TopSecretService {
 		satelliteEntity.setName(name);
 		satelliteEntity.setX(topSecret.getPosition().getX());
 		satelliteEntity.setY(topSecret.getPosition().getY());
-		repository.save(satelliteEntity);
+		dao.saveEntity(satelliteEntity);
 	}
 
 	public void topSecretUpdateV2(String name, SatelliteDistanceDto satelliteDistanceDto) {
@@ -159,7 +145,7 @@ public class TopSecretServiceImpl implements TopSecretService {
 	@Override
 	public SatellitePositionDto getTopSecret() {
 
-		List<SatelliteEntity> satelliteEntity = recoverSatellitesData();
+		List<SatelliteEntity> satelliteEntity = dao.recoverSatellitesData();
 
 		SatellitePositionDto ret = new SatellitePositionDto();
 

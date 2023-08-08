@@ -46,7 +46,7 @@ public class TopSecretServiceImpl implements TopSecretService {
 	 * @throws Exception
 	 */
 	@Override
-	public SatellitePositionDto topSecret(SatellitesDto satellites) throws DataAccessException {
+	public SatellitePositionDto topSecret(SatellitesDto satellites) throws Exception {
 
 		double[] distance = QuasarMapper.getDistanceArray(satellites);
 		Point p = service.getLocation(distance);
@@ -133,8 +133,8 @@ public class TopSecretServiceImpl implements TopSecretService {
 		}
 
 		if (StringUtils.isBlank(ret.getMessage())) {
-			log.info("Lanzar exepcion, mensaje no identificable");
-			throw new NotFoundCustomException("Satelite: ");
+			log.error("Lanzar exepcion, mensaje no identificable");
+			throw new NotFoundCustomException("Exepcion, mensaje no identificable");
 		}
 
 		return ret;

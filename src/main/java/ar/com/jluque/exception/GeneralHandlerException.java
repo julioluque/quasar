@@ -12,6 +12,7 @@ import ar.com.jluque.exception.custom.ForbiddenCustomException;
 import ar.com.jluque.exception.custom.IllegalArgumentCustomException;
 import ar.com.jluque.exception.custom.NotFoundCustomException;
 import ar.com.jluque.exception.custom.QuasarBuissinesException;
+import ar.com.jluque.exception.custom.QuasarBussinesNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
@@ -25,7 +26,7 @@ public class GeneralHandlerException {
 	}
 
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	@ExceptionHandler({ NotFoundCustomException.class })
+	@ExceptionHandler({ NotFoundCustomException.class, QuasarBussinesNotFoundException.class })
 	@ResponseBody
 	public ErrorMessage notFoundHandler(HttpServletRequest request, Exception exception) {
 		return new ErrorMessage(exception, request.getRequestURI());
@@ -52,8 +53,7 @@ public class GeneralHandlerException {
 	}
 
 	@ResponseStatus(HttpStatus.CONFLICT)
-	@ExceptionHandler({ ConflictCustomException.class, 
-			org.springframework.dao.DataAccessException.class,
+	@ExceptionHandler({ ConflictCustomException.class, org.springframework.dao.DataAccessException.class,
 			org.springframework.dao.DuplicateKeyException.class,
 			org.springframework.dao.DataIntegrityViolationException.class })
 	@ResponseBody

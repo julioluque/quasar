@@ -14,6 +14,7 @@ import ar.com.jluque.dto.SatelliteDto;
 import ar.com.jluque.dto.SatellitePositionDto;
 import ar.com.jluque.dto.SatellitesDto;
 import ar.com.jluque.entity.SatelliteEntity;
+import ar.com.jluque.exception.custom.NotFoundCustomException;
 import ar.com.jluque.repository.SatelliteRepository;
 import ar.com.jluque.service.QuasarService;
 import ar.com.jluque.service.TopSecretService;
@@ -162,8 +163,10 @@ public class TopSecretServiceImpl implements TopSecretService {
 			}
 		}
 
-		if (StringUtils.isBlank(ret.getMessage()))
+		if (StringUtils.isBlank(ret.getMessage())) {
 			log.info("Lanzar exepcion, mensaje no identificable");
+			throw new NotFoundCustomException("Satelite: ");
+		}
 
 		return ret;
 	}

@@ -20,7 +20,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class MessageServiceImpl implements MessageService {
 
-	public List<List<String>> validateAndReplaceWords(String[][] wordMatrix) {
+	public List<List<String>> validateAndReplaceWords(String[][] wordMatrix) throws QuasarBuissinesException{
 		JLanguageTool languageTool = new JLanguageTool(new Spanish());
 		List<List<String>> mensajeOriginalList = Arrays.stream(wordMatrix).map(Arrays::asList).toList();
 		log.info("Original Message{}", mensajeOriginalList);

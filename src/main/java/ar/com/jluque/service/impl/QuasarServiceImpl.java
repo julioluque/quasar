@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.com.jluque.entity.SatelliteEntity;
+import ar.com.jluque.exception.custom.IllegalArgumentCustomException;
 import ar.com.jluque.exception.custom.NotFoundCustomException;
+import ar.com.jluque.exception.custom.QuasarBuissinesException;
 import ar.com.jluque.mapper.QuasarMapper;
 import ar.com.jluque.mapper.ValidateMapper;
 import ar.com.jluque.repository.SatelliteRepository;
@@ -43,7 +45,8 @@ public class QuasarServiceImpl implements QuasarService {
 	}
 
 	@Override
-	public Point getLocation(double[] distances) throws Exception {
+	public Point getLocation(double[] distances)
+			throws NotFoundCustomException, IllegalArgumentCustomException, QuasarBuissinesException {
 
 		ValidateMapper.amountOfSatellites(distances);
 
@@ -65,7 +68,7 @@ public class QuasarServiceImpl implements QuasarService {
 	}
 
 	@Override
-	public String getMessage(String[][] messages) {
+	public String getMessage(String[][] messages) throws IllegalArgumentCustomException, QuasarBuissinesException {
 
 		ValidateMapper.amountOfMessages(messages);
 		ValidateMapper.amountOfWords(messages);

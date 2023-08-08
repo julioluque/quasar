@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
+import ar.com.jluque.dto.SatelliteDto;
+import ar.com.jluque.dto.SatellitesDto;
 import ar.com.jluque.entity.SatelliteEntity;
 import ar.com.jluque.exception.custom.IllegalArgumentCustomException;
 
@@ -27,6 +29,40 @@ public class QuasarMapper {
 		});
 
 		return matrizCoordenadas;
+	}
+
+	public static double[] getDistanceArray(SatellitesDto satellites) {
+		return satellites.getSatellites().stream().mapToDouble(SatelliteDto::getDistance).toArray();
+	}
+
+	/**
+	 * Mergeamos los satellites del input con los que fueron recuperados por base de
+	 * datos. Tomamos el nombre como key y seteamos los mensajes.
+	 * 
+	 * @param satellites
+	 * @param satelliteEntity
+	 * @return
+	 */
+	public static List<SatelliteEntity> buildEntity(SatellitesDto satellites, List<SatelliteEntity> satelliteEntity) {
+		return satelliteEntity.stream().map(e -> {
+			satellites.getSatellites().stream().filter(s -> s.getName().equalsIgnoreCase(e.getName())).findFirst()
+					.ifPresent(s -> e.setMessage(String.join(",", s.getMessage())));
+			return e;
+		}).toList();
+	}
+
+	public static String[][] getMessageMatrix(SatellitesDto satellites) {
+		List<String[]> mensajesList = satellites.getSatellites().stream().map(SatelliteDto::getMessage).toList();
+
+		int listSize = mensajesList.size();
+		int arrayLength = mensajesList.get(0).length;
+
+		String[][] mensajes = new String[listSize][arrayLength];
+
+		for (int i = 0; i < listSize; i++) {
+			mensajes[i] = mensajesList.get(i);
+		}
+		return mensajes;
 	}
 
 }

@@ -17,6 +17,7 @@ import ar.com.jluque.dto.SatellitePositionDto;
 import ar.com.jluque.dto.SatellitesDto;
 import ar.com.jluque.entity.SatelliteEntity;
 import ar.com.jluque.exception.custom.NotFoundCustomException;
+import ar.com.jluque.mapper.QuasarMapper;
 import ar.com.jluque.service.QuasarService;
 import ar.com.jluque.service.TopSecretService;
 import lombok.extern.log4j.Log4j2;
@@ -28,12 +29,12 @@ public class TopSecretServiceImpl implements TopSecretService {
 	private QuasarService service;
 
 	private DaoHandler dao;
-	
+
 	@Autowired
 	public void setDao(DaoHandler dao) {
 		this.dao = dao;
 	}
-	
+
 	@Autowired
 	public void setService(QuasarService service) {
 		this.service = service;
@@ -47,7 +48,7 @@ public class TopSecretServiceImpl implements TopSecretService {
 	@Override
 	public SatellitePositionDto topSecret(SatellitesDto satellites) throws DataAccessException {
 
-		double[] distance = getDistanceArray(satellites);
+		double[] distance = QuasarMapper.getDistanceArray(satellites);
 		Point p = service.getLocation(distance);
 
 		PositionDto position = new PositionDto();
@@ -55,10 +56,10 @@ public class TopSecretServiceImpl implements TopSecretService {
 		position.setY(p.getY());
 
 		List<SatelliteEntity> satelliteEntity = dao.recoverSatellitesData();
-		satelliteEntity = buildEntity(satellites, satelliteEntity);
+		satelliteEntity = QuasarMapper.buildEntity(satellites, satelliteEntity);
 		dao.saveMessages(satelliteEntity);
 
-		String[][] mensajes = getMessageMatrix(satellites);
+		String[][] mensajes = QuasarMapper.getMessageMatrix(satellites);
 		String m = service.getMessage(mensajes);
 
 		SatellitePositionDto ret = new SatellitePositionDto();
@@ -71,27 +72,6 @@ public class TopSecretServiceImpl implements TopSecretService {
 
 		return ret;
 	}
-
-
-
-
-	/**
-	 * Mergeamos los satellites del input con los que fueron recuperados por base de
-	 * datos. Tomamos el nombre como key y seteamos los mensajes.
-	 * 
-	 * @param satellites
-	 * @param satelliteEntity
-	 * @return
-	 */
-	private List<SatelliteEntity> buildEntity(SatellitesDto satellites, List<SatelliteEntity> satelliteEntity) {
-		return satelliteEntity.stream().map(e -> {
-			satellites.getSatellites().stream().filter(s -> s.getName().equalsIgnoreCase(e.getName())).findFirst()
-					.ifPresent(s -> e.setMessage(String.join(",", s.getMessage())));
-			return e;
-		}).toList();
-	}
-
-
 
 	/**
 	 * NIVEL 3 persistiendo en DB por fuera. Se podria agregar un post que de el
@@ -124,12 +104,7 @@ public class TopSecretServiceImpl implements TopSecretService {
 		SatellitePositionDto topSecret = topSecret(satellites);
 
 		// TODO update la coordenada de cada satelite con este servicio
-
-		SatelliteEntity satelliteEntity = new SatelliteEntity();
-		satelliteEntity.setName(name);
-		satelliteEntity.setX(topSecret.getPosition().getX());
-		satelliteEntity.setY(topSecret.getPosition().getY());
-		dao.saveEntity(satelliteEntity);
+		dao.saveEntity(topSecret, name);
 	}
 
 	public void topSecretUpdateV2(String name, SatelliteDistanceDto satelliteDistanceDto) {
@@ -165,21 +140,4 @@ public class TopSecretServiceImpl implements TopSecretService {
 		return ret;
 	}
 
-	private double[] getDistanceArray(SatellitesDto satellites) {
-		return satellites.getSatellites().stream().mapToDouble(SatelliteDto::getDistance).toArray();
-	}
-
-	private String[][] getMessageMatrix(SatellitesDto satellites) {
-		List<String[]> mensajesList = satellites.getSatellites().stream().map(SatelliteDto::getMessage).toList();
-
-		int listSize = mensajesList.size();
-		int arrayLength = mensajesList.get(0).length;
-
-		String[][] mensajes = new String[listSize][arrayLength];
-
-		for (int i = 0; i < listSize; i++) {
-			mensajes[i] = mensajesList.get(i);
-		}
-		return mensajes;
-	}
 }

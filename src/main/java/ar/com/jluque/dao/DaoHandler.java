@@ -28,7 +28,8 @@ public class DaoHandler {
 		return entityList.get();
 	}
 
-	public void saveTransmiterData(SatellitePositionDto satellitePositionDto, SatelliteEntity satelliteEntity) {
+	public void saveTransmiterData(SatellitePositionDto satellitePositionDto, SatelliteEntity satelliteEntity)
+			throws DataAccessException {
 		satelliteEntity.setX(satellitePositionDto.getPosition().getX());
 		satelliteEntity.setY(satellitePositionDto.getPosition().getY());
 		satelliteEntity.setMessage(satellitePositionDto.getMessage());
@@ -36,12 +37,16 @@ public class DaoHandler {
 		repository.save(satelliteEntity);
 	}
 
+	public void saveEntity(SatellitePositionDto satellitePositionDto, String name) throws DataAccessException {
+		SatelliteEntity satelliteEntity = new SatelliteEntity();
+		satelliteEntity.setName(name);
+		satelliteEntity.setX(satellitePositionDto.getPosition().getX());
+		satelliteEntity.setY(satellitePositionDto.getPosition().getY());
+		
+		repository.save(satelliteEntity);
+	}
+	
 	public void saveMessages(List<SatelliteEntity> satelliteEntity) throws DataAccessException {
 		repository.saveAll(satelliteEntity);
 	}
-
-	public void saveEntity(SatelliteEntity satelliteEntity) {
-		repository.save(satelliteEntity);
-	}
-
 }

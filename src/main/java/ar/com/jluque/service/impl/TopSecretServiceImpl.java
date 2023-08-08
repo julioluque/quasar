@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,10 @@ import ar.com.jluque.entity.SatelliteEntity;
 import ar.com.jluque.repository.SatelliteRepository;
 import ar.com.jluque.service.QuasarService;
 import ar.com.jluque.service.TopSecretService;
+import lombok.extern.log4j.Log4j2;
 
 @Service
+@Log4j2
 public class TopSecretServiceImpl implements TopSecretService {
 
 	private QuasarService service;
@@ -134,13 +137,20 @@ public class TopSecretServiceImpl implements TopSecretService {
 		List<SatelliteEntity> satelliteEntity = recoverSatellitesData();
 
 		SatellitePositionDto ret = new SatellitePositionDto();
+
 		for (SatelliteEntity s : satelliteEntity) {
-			if (s.getName().equalsIgnoreCase("TRANSMITER")) {
+			if (s.getName().equals("TRANSMITER")) {
 				ret.getPosition().setX(s.getX());
 				ret.getPosition().setY(s.getY());
 				ret.setMessage(s.getMessage());
 			}
 		}
+
+		// TODO validar mensaje no identificable.
+		if (StringUtils.isBlank(ret.getMessage()))
+			// TODO: libreria de exepciones
+			log.info("Lanzar exepcion, mensaje no identificable");
+
 		return ret;
 	}
 

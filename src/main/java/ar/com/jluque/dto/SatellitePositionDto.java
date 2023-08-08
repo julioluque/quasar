@@ -13,6 +13,7 @@ import lombok.ToString;
 @ToString
 public class SatellitePositionDto {
 
-	private PositionDto position;
+	private PositionDto position = new PositionDto();
 	private String message;
+
 }

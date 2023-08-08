@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import ar.com.jluque.dto.PositionDto;
@@ -14,6 +15,7 @@ import ar.com.jluque.dto.SatelliteDto;
 import ar.com.jluque.dto.SatellitePositionDto;
 import ar.com.jluque.dto.SatellitesDto;
 import ar.com.jluque.entity.SatelliteEntity;
+import ar.com.jluque.exception.custom.ConflictCustomException;
 import ar.com.jluque.exception.custom.NotFoundCustomException;
 import ar.com.jluque.repository.SatelliteRepository;
 import ar.com.jluque.service.QuasarService;
@@ -40,7 +42,8 @@ public class TopSecretServiceImpl implements TopSecretService {
 
 	/**
 	 * NIVEL 2
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	@Override
 	public SatellitePositionDto topSecret(SatellitesDto satellites) throws Exception {
@@ -99,13 +102,18 @@ public class TopSecretServiceImpl implements TopSecretService {
 	}
 
 	private void saveMessages(List<SatelliteEntity> satelliteEntity) {
-		repository.saveAll(satelliteEntity);
+		try {
+			repository.saveAll(satelliteEntity);
+		} catch (DataAccessException e) {
+			throw new ConflictCustomException("Error al guardar la lista de satelites");
+		}
 	}
 
 	/**
 	 * NIVEL 3 persistiendo en DB por fuera. Se podria agregar un post que de el
 	 * alta
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 * 
 	 */
 	@Override

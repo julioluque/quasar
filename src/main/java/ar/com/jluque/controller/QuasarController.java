@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ar.com.jluque.exception.custom.IllegalArgumentCustomException;
+import ar.com.jluque.exception.custom.NotFoundCustomException;
+import ar.com.jluque.exception.custom.QuasarBuissinesException;
 import ar.com.jluque.service.QuasarService;
 
 @RestController
@@ -30,10 +33,11 @@ public class QuasarController {
 	 * 
 	 * @param distances - distancia al emisor tal cual se recibe en cada satelite.
 	 * @return Point - las coordenadas de x e y del emisor del mensaje.
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@GetMapping("/distance/{array_distance}")
-	public ResponseEntity<Point> getLocation(@PathVariable(value = "array_distance") double[] distances) throws Exception {
+	public ResponseEntity<Point> getLocation(@PathVariable(value = "array_distance") double[] distances)
+			throws NotFoundCustomException, IllegalArgumentCustomException, QuasarBuissinesException {
 		return new ResponseEntity<>(service.getLocation(distances), HttpStatus.OK);
 	}
 
@@ -42,10 +46,11 @@ public class QuasarController {
 	 * 
 	 * @param messages - el mensaje tal cual es recibido por cada satelite.
 	 * @return String - el mensaje tal cual lo genera el emisonr del mensaje.
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@PostMapping("/message/")
-	public ResponseEntity<String> getMessage(@RequestBody String[][] messages) throws Exception {
+	public ResponseEntity<String> getMessage(@RequestBody String[][] messages)
+			throws IllegalArgumentCustomException, QuasarBuissinesException {
 		return new ResponseEntity<>(service.getMessage(messages), HttpStatus.OK);
 	}
 

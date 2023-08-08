@@ -52,7 +52,8 @@ public class GeneralHandlerException {
 	}
 
 	@ResponseStatus(HttpStatus.CONFLICT)
-	@ExceptionHandler({ ConflictCustomException.class, org.springframework.dao.DuplicateKeyException.class,
+	@ExceptionHandler({ ConflictCustomException.class, 
+		org.springframework.dao.DuplicateKeyException.class,
 			org.springframework.dao.DataIntegrityViolationException.class })
 	@ResponseBody
 	public ErrorMessage conflictHandler(HttpServletRequest request, Exception exception) {

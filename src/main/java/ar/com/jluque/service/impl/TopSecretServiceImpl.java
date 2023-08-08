@@ -50,8 +50,6 @@ public class TopSecretServiceImpl implements TopSecretService {
 		position.setX(p.getX());
 		position.setY(p.getY());
 
-		// recuperamos los satelites que tienen coordenadas y mergeamos los mensajes que
-		// tiene cada uno.
 		List<SatelliteEntity> satelliteEntity = recoverSatellitesData();
 		satelliteEntity = buildEntity(satellites, satelliteEntity);
 		saveMessages(satelliteEntity);
@@ -82,6 +80,14 @@ public class TopSecretServiceImpl implements TopSecretService {
 		return repository.findAll();
 	}
 
+	/**
+	 * Mergeamos los satellites del input con los que fueron recuperados por base de
+	 * datos. Tomamos el nombre como key y seteamos los mensajes.
+	 * 
+	 * @param satellites
+	 * @param satelliteEntity
+	 * @return
+	 */
 	private List<SatelliteEntity> buildEntity(SatellitesDto satellites, List<SatelliteEntity> satelliteEntity) {
 		return satelliteEntity.stream().map(e -> {
 			satellites.getSatellites().stream().filter(s -> s.getName().equalsIgnoreCase(e.getName())).findFirst()

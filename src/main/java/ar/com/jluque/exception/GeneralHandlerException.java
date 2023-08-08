@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class GeneralHandlerException {
 
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler({ Exception.class })
+	@ExceptionHandler({ Exception.class, IllegalArgumentException.class })
 	@ResponseBody
 	public ErrorMessage unexpectedHandler(HttpServletRequest request, Exception exception) {
 		return new ErrorMessage(exception, request.getRequestURI());

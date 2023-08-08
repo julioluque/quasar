@@ -72,7 +72,7 @@ public class TopSecretServiceImpl implements TopSecretService {
 
 	private void saveTransmiterData(SatellitePositionDto satellitePositionDto, SatelliteEntity satelliteEntity) {
 		satelliteEntity.setX(satellitePositionDto.getPosition().getX());
-		satelliteEntity.setY(satellitePositionDto.getPosition().getX());
+		satelliteEntity.setY(satellitePositionDto.getPosition().getY());
 		satelliteEntity.setMessage(satellitePositionDto.getMessage());
 
 		repository.save(satelliteEntity);
@@ -146,9 +146,7 @@ public class TopSecretServiceImpl implements TopSecretService {
 			}
 		}
 
-		// TODO validar mensaje no identificable.
 		if (StringUtils.isBlank(ret.getMessage()))
-			// TODO: libreria de exepciones
 			log.info("Lanzar exepcion, mensaje no identificable");
 
 		return ret;

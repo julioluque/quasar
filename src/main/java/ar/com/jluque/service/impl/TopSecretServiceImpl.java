@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import ar.com.jluque.dao.DaoHandler;
@@ -68,8 +67,6 @@ public class TopSecretServiceImpl implements TopSecretService {
 
 		dao.saveTransmiterData(ret, satelliteEntity.get(3));
 
-		// TODO agregar libreria de exepciones: para lanzar 404
-
 		return ret;
 	}
 
@@ -97,10 +94,8 @@ public class TopSecretServiceImpl implements TopSecretService {
 
 		// TODO En esta prueba llamo al servicio anterior pero con las nuevas
 		// distancias. aunque no se pide el calculo sino la actualizacion, Creo qeu
-		// deberia hacer neuvamente el calculo.
-
-		// TODO teniendo el 4to punto, ahora si con la variacion de una distancia ahora
-		// si seria posible calcular el nuevo satelite.
+		// deberia hacer neuvamente el calculo. teniendo el 4to punto, ahora si con la
+		// variacion de una distancia ahora si seria posible calcular el nuevo satelite.
 		SatellitePositionDto topSecret = topSecret(satellites);
 
 		// TODO update la coordenada de cada satelite con este servicio

@@ -11,7 +11,7 @@ import ar.com.jluque.exception.custom.IllegalArgumentCustomException;
 
 public class QuasarMapper {
 
-	public QuasarMapper() {
+	private QuasarMapper() {
 	}
 
 	public static double[][] getPositions(List<SatelliteEntity> satelliteEntityList)

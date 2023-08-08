@@ -2,11 +2,13 @@ package ar.com.jluque.service.impl;
 
 import java.awt.Point;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.com.jluque.entity.SatelliteEntity;
+import ar.com.jluque.exception.custom.NotFoundCustomException;
 import ar.com.jluque.mapper.QuasarMapper;
 import ar.com.jluque.mapper.ValidateMapper;
 import ar.com.jluque.repository.SatelliteRepository;
@@ -41,11 +43,11 @@ public class QuasarServiceImpl implements QuasarService {
 	}
 
 	@Override
-	public Point getLocation(double[] distances) {
+	public Point getLocation(double[] distances) throws Exception {
 
 		ValidateMapper.amountOfSatellites(distances);
 
-		List<SatelliteEntity> satelliteEntityList = repository.findAll();
+		List<SatelliteEntity> satelliteEntityList = findAllSatellites();
 		double[][] positions = QuasarMapper.getPositions(satelliteEntityList);
 
 		Point posicionesLibreria = positionService.triangulacionLibrary(positions, distances);
@@ -54,6 +56,16 @@ public class QuasarServiceImpl implements QuasarService {
 		log.info("posicionesUsandoformula: {} ", posicionesFormula);
 
 		return posicionesLibreria;
+	}
+
+	private List<SatelliteEntity> findAllSatellites() throws NotFoundCustomException {
+		Optional<List<SatelliteEntity>> satelliteList = Optional.ofNullable(repository.findAll());
+
+//		satelliteList.ifPresent(satelliteEntityList -> {
+//			throw new NotFoundCustomException("No se encontraron Satellites en la base de datos");
+//		});
+
+		return satelliteList.get();
 	}
 
 	@Override

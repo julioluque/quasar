@@ -4,7 +4,7 @@ import java.awt.Point;
 
 public interface PositionService {
 
-	public Point triangularFormula(double[][] positions, double[] distances);
+	public Point triangularFormula(double[][] positions, double[] distances) throws Exception;
 
-	public Point triangulacionLibrary(double[][] positions, double[] distances);
+	public Point triangulacionLibrary(double[][] positions, double[] distances) throws Exception;
 }

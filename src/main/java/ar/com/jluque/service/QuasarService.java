@@ -4,10 +4,8 @@ import java.awt.Point;
 
 public interface QuasarService {
 
-	public Point getLocation(double[] distances);
+	public Point getLocation(double[] distances) throws Exception;
 
-	public String getMessage(String[][] messages);
-
-
+	public String getMessage(String[][] messages) throws Exception;
 
 }

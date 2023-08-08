@@ -18,7 +18,7 @@ public class QuasarMapper {
 
 		IntStream.range(0, satelliteEntityList.size() - 1).forEach(i -> {
 			SatelliteEntity satellite = satelliteEntityList.get(i);
-			if (!Objects.isNull(satellite))
+			if (Objects.isNull(satellite))
 				throw new IllegalArgumentCustomException(
 						"Error al buscar la posicion. Satellite no enconrado en la posicion: " + i);
 			matrizCoordenadas[i][0] = satellite.getX();

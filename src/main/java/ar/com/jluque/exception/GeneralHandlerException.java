@@ -9,14 +9,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import ar.com.jluque.exception.custom.BadRequestCustomException;
 import ar.com.jluque.exception.custom.ConflictCustomException;
 import ar.com.jluque.exception.custom.ForbiddenCustomException;
+import ar.com.jluque.exception.custom.IllegalArgumentCustomException;
 import ar.com.jluque.exception.custom.NotFoundCustomException;
+import ar.com.jluque.exception.custom.QuasarBuissinesException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class GeneralHandlerException {
 
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler({ Exception.class, IllegalArgumentException.class })
+	@ExceptionHandler({ Exception.class, IllegalArgumentCustomException.class, QuasarBuissinesException.class })
 	@ResponseBody
 	public ErrorMessage unexpectedHandler(HttpServletRequest request, Exception exception) {
 		return new ErrorMessage(exception, request.getRequestURI());

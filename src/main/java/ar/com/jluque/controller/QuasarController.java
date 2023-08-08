@@ -30,9 +30,10 @@ public class QuasarController {
 	 * 
 	 * @param distances - distancia al emisor tal cual se recibe en cada satelite.
 	 * @return Point - las coordenadas de x e y del emisor del mensaje.
+	 * @throws Exception 
 	 */
 	@GetMapping("/distance/{array_distance}")
-	public ResponseEntity<Point> getLocation(@PathVariable(value = "array_distance") double[] distances) {
+	public ResponseEntity<Point> getLocation(@PathVariable(value = "array_distance") double[] distances) throws Exception {
 		return new ResponseEntity<>(service.getLocation(distances), HttpStatus.OK);
 	}
 
@@ -41,9 +42,10 @@ public class QuasarController {
 	 * 
 	 * @param messages - el mensaje tal cual es recibido por cada satelite.
 	 * @return String - el mensaje tal cual lo genera el emisonr del mensaje.
+	 * @throws Exception 
 	 */
 	@PostMapping("/message/")
-	public ResponseEntity<String> getMessage(@RequestBody String[][] messages) {
+	public ResponseEntity<String> getMessage(@RequestBody String[][] messages) throws Exception {
 		return new ResponseEntity<>(service.getMessage(messages), HttpStatus.OK);
 	}
 

@@ -6,9 +6,9 @@ import ar.com.jluque.dto.SatellitesDto;
 
 public interface TopSecretService {
 
-	public SatellitePositionDto topSecret(SatellitesDto satellites);
+	public SatellitePositionDto topSecret(SatellitesDto satellites) throws Exception;
 
-	public void topSecretUpdate(String name, SatelliteDistanceDto satellites);
+	public void topSecretUpdate(String name, SatelliteDistanceDto satellites) throws Exception;
 
 	public SatellitePositionDto getTopSecret();
 }

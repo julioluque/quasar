@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import com.lemmingapex.trilateration.NonLinearLeastSquaresSolver;
 import com.lemmingapex.trilateration.TrilaterationFunction;
 
+import ar.com.jluque.exception.custom.QuasarBuissinesException;
 import ar.com.jluque.service.PositionService;
 
 @Service
 public class PositionServiceImpl implements PositionService {
 
-	
 	/**
 	 * Formula de triangulacion para encontrar las coordenadas del origen (x, y)
 	 * 
@@ -33,37 +33,42 @@ public class PositionServiceImpl implements PositionService {
 	 * #3_Coordenadas - resolvemos el sistema de ecuaciones para encontrar las
 	 * coordenadas (x, y) del origen.
 	 */
-	public Point triangularFormula(double[][] positions, double[] distances) {
+	public Point triangularFormula(double[][] positions, double[] distances) throws Exception {
 
-		// mapear cordenadas
-		double d1 = distances[0];
-		double d2 = distances[1];
-		double d3 = distances[2];
+		try {
+			// mapear cordenadas
+			double d1 = distances[0];
+			double d2 = distances[1];
+			double d3 = distances[2];
 
-		double x1 = positions[0][0];
-		double y1 = positions[0][1];
+			double x1 = positions[0][0];
+			double y1 = positions[0][1];
 
-		double x2 = positions[1][0];
-		double y2 = positions[1][1];
+			double x2 = positions[1][0];
+			double y2 = positions[1][1];
 
-		double x3 = positions[2][0];
-		double y3 = positions[2][1];
+			double x3 = positions[2][0];
+			double y3 = positions[2][1];
 
-		// triangulacion.
-		double A = 2 * (x2 - x1);
-		double B = 2 * (y2 - y1);
-		double C = Math.pow(d1, 2) - Math.pow(d2, 2) - Math.pow(x1, 2) + Math.pow(x2, 2) - Math.pow(y1, 2)
-				+ Math.pow(y2, 2);
-		double D = 2 * (x3 - x2);
-		double E = 2 * (y3 - y2);
-		double F = Math.pow(d2, 2) - Math.pow(d3, 2) - Math.pow(x2, 2) + Math.pow(x3, 2) - Math.pow(y2, 2)
-				+ Math.pow(y3, 2);
+			// triangulacion.
+			double A = 2 * (x2 - x1);
+			double B = 2 * (y2 - y1);
+			double C = Math.pow(d1, 2) - Math.pow(d2, 2) - Math.pow(x1, 2) + Math.pow(x2, 2) - Math.pow(y1, 2)
+					+ Math.pow(y2, 2);
+			double D = 2 * (x3 - x2);
+			double E = 2 * (y3 - y2);
+			double F = Math.pow(d2, 2) - Math.pow(d3, 2) - Math.pow(x2, 2) + Math.pow(x3, 2) - Math.pow(y2, 2)
+					+ Math.pow(y3, 2);
 
-		// 3_Coordenadas fuente o coordenadas del mensaje
-		double x = (C * E - F * B) / (E * A - B * D);
-		double y = (C - A * x) / B;
+			// 3_Coordenadas fuente o coordenadas del mensaje
+			double x = (C * E - F * B) / (E * A - B * D);
+			double y = (C - A * x) / B;
+			
+			return new Point((int) x, (int) y);
 
-		return new Point((int) x, (int) y);
+		} catch (Exception e) {
+			throw new QuasarBuissinesException("Error al realizar la trilateracion por formula.");
+		}
 	}
 
 	/**

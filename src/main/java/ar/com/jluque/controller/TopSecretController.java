@@ -33,10 +33,11 @@ public class TopSecretController {
 	 * 
 	 * @param satellites
 	 * @return
+	 * @throws Exception 
 	 * @exception TODO libreria de exepciones 404 en caso de no encontrarlo
 	 */
 	@PostMapping("/topsecret/")
-	public ResponseEntity<SatellitePositionDto> topSecret(@RequestBody SatellitesDto satellites) {
+	public ResponseEntity<SatellitePositionDto> topSecret(@RequestBody SatellitesDto satellites) throws Exception {
 		return new ResponseEntity<>(service.topSecret(satellites), HttpStatus.OK);
 	}
 
@@ -45,10 +46,11 @@ public class TopSecretController {
 	 * 
 	 * @param satellites
 	 * @return
+	 * @throws Exception 
 	 */
 	@PutMapping("/topsecret_split/{satellite_name}")
 	public ResponseEntity<String> topSecretUpdate(@PathVariable(value = "satellite_name") String name,
-			@RequestBody SatelliteDistanceDto satellites) {
+			@RequestBody SatelliteDistanceDto satellites) throws Exception {
 
 		service.topSecretUpdate(name, satellites);
 		return new ResponseEntity<>("Updated", HttpStatus.OK);

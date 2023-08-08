@@ -40,9 +40,10 @@ public class TopSecretServiceImpl implements TopSecretService {
 
 	/**
 	 * NIVEL 2
+	 * @throws Exception 
 	 */
 	@Override
-	public SatellitePositionDto topSecret(SatellitesDto satellites) {
+	public SatellitePositionDto topSecret(SatellitesDto satellites) throws Exception {
 
 		double[] distance = getDistanceArray(satellites);
 		Point p = service.getLocation(distance);
@@ -104,10 +105,11 @@ public class TopSecretServiceImpl implements TopSecretService {
 	/**
 	 * NIVEL 3 persistiendo en DB por fuera. Se podria agregar un post que de el
 	 * alta
+	 * @throws Exception 
 	 * 
 	 */
 	@Override
-	public void topSecretUpdate(String name, SatelliteDistanceDto satelliteDistanceDto) {
+	public void topSecretUpdate(String name, SatelliteDistanceDto satelliteDistanceDto) throws Exception {
 
 		// Armo el satelite perteneciente a esta peticion.
 		SatelliteDto satellite = new SatelliteDto();

@@ -3,6 +3,7 @@ package ar.com.jluque.service.impl;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import ar.com.jluque.dto.SatelliteDto;
 import ar.com.jluque.dto.SatellitePositionDto;
 import ar.com.jluque.dto.SatellitesDto;
 import ar.com.jluque.entity.SatelliteEntity;
-import ar.com.jluque.exception.custom.ConflictCustomException;
 import ar.com.jluque.exception.custom.NotFoundCustomException;
 import ar.com.jluque.repository.SatelliteRepository;
 import ar.com.jluque.service.QuasarService;
@@ -46,7 +46,7 @@ public class TopSecretServiceImpl implements TopSecretService {
 	 * @throws Exception
 	 */
 	@Override
-	public SatellitePositionDto topSecret(SatellitesDto satellites) throws Exception {
+	public SatellitePositionDto topSecret(SatellitesDto satellites) throws DataAccessException {
 
 		double[] distance = getDistanceArray(satellites);
 		Point p = service.getLocation(distance);
@@ -82,7 +82,9 @@ public class TopSecretServiceImpl implements TopSecretService {
 	}
 
 	private List<SatelliteEntity> recoverSatellitesData() {
-		return repository.findAll();
+		Optional<List<SatelliteEntity>> entityList = Optional.ofNullable(repository.findAll());
+		entityList.orElseThrow(() -> new NotFoundCustomException("No se encontraron Satellites en la base de datos"));
+		return entityList.get();
 	}
 
 	/**
@@ -101,12 +103,8 @@ public class TopSecretServiceImpl implements TopSecretService {
 		}).toList();
 	}
 
-	private void saveMessages(List<SatelliteEntity> satelliteEntity) {
-		try {
+	private void saveMessages(List<SatelliteEntity> satelliteEntity) throws DataAccessException{
 			repository.saveAll(satelliteEntity);
-		} catch (DataAccessException e) {
-			throw new ConflictCustomException("Error al guardar la lista de satelites");
-		}
 	}
 
 	/**

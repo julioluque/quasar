@@ -59,13 +59,9 @@ public class QuasarServiceImpl implements QuasarService {
 	}
 
 	private List<SatelliteEntity> findAllSatellites() throws NotFoundCustomException {
-		Optional<List<SatelliteEntity>> satelliteList = Optional.ofNullable(repository.findAll());
-
-//		satelliteList.ifPresent(satelliteEntityList -> {
-//			throw new NotFoundCustomException("No se encontraron Satellites en la base de datos");
-//		});
-
-		return satelliteList.get();
+		Optional<List<SatelliteEntity>> entityList = Optional.ofNullable(repository.findAll());
+		entityList.orElseThrow(() -> new NotFoundCustomException("No se encontraron Satellites en la base de datos"));
+		return entityList.get();
 	}
 
 	@Override

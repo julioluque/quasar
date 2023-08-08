@@ -47,7 +47,8 @@ public class TopSecretServiceImpl implements TopSecretService {
 		position.setX(p.getX());
 		position.setY(p.getY());
 
-		// Persistir mensajes:
+		// recuperamos los satelites que tienen coordenadas y mergeamos los mensajes que
+		// tiene cada uno.
 		List<SatelliteEntity> satelliteEntity = recoverSatellitesData();
 		satelliteEntity = buildEntity(satellites, satelliteEntity);
 		saveMessages(satelliteEntity);
@@ -130,20 +131,16 @@ public class TopSecretServiceImpl implements TopSecretService {
 	@Override
 	public SatellitePositionDto getTopSecret() {
 
-		// getLocation
-		Point p = service.getLocation(null);
-
-		// getMensaje
-		String m = service.getMessage(null);
-
-		PositionDto position = new PositionDto();
-		position.setX(p.getX());
-		position.setY(p.getY());
+		List<SatelliteEntity> satelliteEntity = recoverSatellitesData();
 
 		SatellitePositionDto ret = new SatellitePositionDto();
-		ret.setPosition(position);
-		ret.setMessage(m);
-
+		for (SatelliteEntity s : satelliteEntity) {
+			if (s.getName().equalsIgnoreCase("TRANSMITER")) {
+				ret.getPosition().setX(s.getX());
+				ret.getPosition().setY(s.getY());
+				ret.setMessage(s.getMessage());
+			}
+		}
 		return ret;
 	}
 

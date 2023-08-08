@@ -22,18 +22,12 @@ public class DaoHandler {
 		this.repository = repository;
 	}
 
-//	public List<SatelliteEntity> findAllSatellites() throws NotFoundCustomException {
-//		Optional<List<SatelliteEntity>> entityList = Optional.ofNullable(repository.findAll());
-//		entityList.orElseThrow(() -> new NotFoundCustomException("No se encontraron Satellites en la base de datos"));
-//		return entityList.get();
-//	}
-
 	public List<SatelliteEntity> recoverSatellitesData() throws NotFoundCustomException {
 		Optional<List<SatelliteEntity>> entityList = Optional.ofNullable(repository.findAll());
 		entityList.orElseThrow(() -> new NotFoundCustomException("No se encontraron Satellites en la base de datos"));
 		return entityList.get();
 	}
-	
+
 	public void saveTransmiterData(SatellitePositionDto satellitePositionDto, SatelliteEntity satelliteEntity) {
 		satelliteEntity.setX(satellitePositionDto.getPosition().getX());
 		satelliteEntity.setY(satellitePositionDto.getPosition().getY());
@@ -41,7 +35,6 @@ public class DaoHandler {
 
 		repository.save(satelliteEntity);
 	}
-
 
 	public void saveMessages(List<SatelliteEntity> satelliteEntity) throws DataAccessException {
 		repository.saveAll(satelliteEntity);

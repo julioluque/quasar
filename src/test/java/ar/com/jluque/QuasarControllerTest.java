@@ -47,16 +47,37 @@ public class QuasarControllerTest {
 	}
 
 	@Test
-	void getLotation200Test() throws Exception {
+	void getLocation200Test() throws Exception {
 		double[] distance = { 100.0, 115.5, 142.7 };
 		String arrayDistance = Arrays.toString(distance);
-		arrayDistance = arrayDistance.substring(1, arrayDistance.length() - 1).replaceAll("\\s+", "");
+		arrayDistance = arrayDistance.substring(1, arrayDistance.length() - 1).replaceAll("\\s+", ""); 
 		Point point = new Point(0, 1);
-
+		 
 		when(service.getLocation(any())).thenReturn(point);
-		mockMvc.perform(get("/quasar/distance/{array_distance}", arrayDistance)
-				.contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE))
-				.andExpect(status().isOk());
+		mockMvc.perform(get("/quasar/distance/{array_distance}", arrayDistance).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk());
 	}
 
+	
+	@Test
+	void getLocation4xxGenericTest() throws Exception {
+		double[] distance = { 100.0, 115.5, 142.7 };
+		String arrayDistance = Arrays.toString(distance);
+		arrayDistance = arrayDistance.substring(1, arrayDistance.length() - 1).replaceAll("\\s+", ""); 
+
+		when(service.getLocation(any())).thenThrow(NotFoundCustomException.class);
+		mockMvc.perform(get("/quasar/distanceERROR/{array_distance}", arrayDistance).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().is4xxClientError());
+	}
+	
+	@Test
+	void getLocation404NotFoundCustomTest() throws Exception {
+		double[] distance = { 100.0, 115.5, 142.7 };
+		String arrayDistance = Arrays.toString(distance);
+		arrayDistance = arrayDistance.substring(1, arrayDistance.length() - 1).replaceAll("\\s+", ""); 
+		
+		when(service.getLocation(any())).thenThrow(NotFoundCustomException.class);
+		mockMvc.perform(get("/quasar/distance/{array_distance}", arrayDistance).contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isNotFound());
+	}
 }

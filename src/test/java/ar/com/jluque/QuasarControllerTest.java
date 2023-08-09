@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -50,34 +49,43 @@ public class QuasarControllerTest {
 	void getLocation200Test() throws Exception {
 		double[] distance = { 100.0, 115.5, 142.7 };
 		String arrayDistance = Arrays.toString(distance);
-		arrayDistance = arrayDistance.substring(1, arrayDistance.length() - 1).replaceAll("\\s+", ""); 
+		arrayDistance = arrayDistance.substring(1, arrayDistance.length() - 1).replaceAll("\\s+", "");
 		Point point = new Point(0, 1);
-		 
+
 		when(service.getLocation(any())).thenReturn(point);
-		mockMvc.perform(get("/quasar/distance/{array_distance}", arrayDistance).contentType(MediaType.APPLICATION_JSON_VALUE)
-				.accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk());
+		mockMvc.perform(get("/quasar/distance/{array_distance}", arrayDistance)
+				.contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk());
 	}
 
-	
 	@Test
 	void getLocation4xxGenericTest() throws Exception {
 		double[] distance = { 100.0, 115.5, 142.7 };
 		String arrayDistance = Arrays.toString(distance);
-		arrayDistance = arrayDistance.substring(1, arrayDistance.length() - 1).replaceAll("\\s+", ""); 
+		arrayDistance = arrayDistance.substring(1, arrayDistance.length() - 1).replaceAll("\\s+", "");
 
 		when(service.getLocation(any())).thenThrow(NotFoundCustomException.class);
-		mockMvc.perform(get("/quasar/distanceERROR/{array_distance}", arrayDistance).contentType(MediaType.APPLICATION_JSON_VALUE)
-				.accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().is4xxClientError());
+		mockMvc.perform(get("/quasar/distanceERROR/{array_distance}", arrayDistance)
+				.contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().is4xxClientError());
 	}
-	
+
 	@Test
 	void getLocation404NotFoundCustomTest() throws Exception {
 		double[] distance = { 100.0, 115.5, 142.7 };
 		String arrayDistance = Arrays.toString(distance);
-		arrayDistance = arrayDistance.substring(1, arrayDistance.length() - 1).replaceAll("\\s+", ""); 
-		
+		arrayDistance = arrayDistance.substring(1, arrayDistance.length() - 1).replaceAll("\\s+", "");
+
 		when(service.getLocation(any())).thenThrow(NotFoundCustomException.class);
-		mockMvc.perform(get("/quasar/distance/{array_distance}", arrayDistance).contentType(MediaType.APPLICATION_JSON_VALUE)
-				.accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isNotFound());
+		mockMvc.perform(get("/quasar/distance/{array_distance}", arrayDistance)
+				.contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isNotFound());
+	}
+
+	@Test
+	void getLocation500Test() throws Exception {
+		when(service.getLocation(any())).thenThrow(RuntimeException.class);
+		mockMvc.perform(get("/quasar/distance/xxx").contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isInternalServerError());
 	}
 }

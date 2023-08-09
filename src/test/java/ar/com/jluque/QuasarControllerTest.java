@@ -6,18 +6,21 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.awt.Point;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ar.com.jluque.controller.QuasarController;
 import ar.com.jluque.dao.DaoHandler;
+import ar.com.jluque.exception.custom.NotFoundCustomException;
 import ar.com.jluque.repository.SatelliteRepository;
 import ar.com.jluque.service.QuasarService;
 
@@ -46,9 +49,14 @@ public class QuasarControllerTest {
 	@Test
 	void getLotation200Test() throws Exception {
 		double[] distance = { 100.0, 115.5, 142.7 };
+		String arrayDistance = Arrays.toString(distance);
+		arrayDistance = arrayDistance.substring(1, arrayDistance.length() - 1).replaceAll("\\s+", "");
 		Point point = new Point(0, 1);
+
 		when(service.getLocation(any())).thenReturn(point);
-		mockMvc.perform(get("/distance/{array_distance}", distance).contentType(MediaType.APPLICATION_JSON_VALUE)
-				.accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk());
+		mockMvc.perform(get("/quasar/distance/{array_distance}", arrayDistance)
+				.contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk());
 	}
+
 }

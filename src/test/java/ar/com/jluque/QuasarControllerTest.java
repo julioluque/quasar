@@ -18,9 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ar.com.jluque.controller.QuasarController;
-import ar.com.jluque.dao.DaoHandler;
 import ar.com.jluque.exception.custom.NotFoundCustomException;
-import ar.com.jluque.repository.SatelliteRepository;
 import ar.com.jluque.service.QuasarService;
 
 public class QuasarControllerTest {
@@ -30,12 +28,6 @@ public class QuasarControllerTest {
 
 	@Mock
 	private QuasarService service;
-
-	@Mock
-	private DaoHandler dao;
-
-	@Mock
-	private SatelliteRepository repository;
 
 	private MockMvc mockMvc;
 

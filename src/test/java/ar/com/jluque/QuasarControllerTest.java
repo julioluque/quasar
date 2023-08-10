@@ -3,6 +3,7 @@ package ar.com.jluque;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.awt.Point;
@@ -17,8 +18,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ar.com.jluque.controller.QuasarController;
+import ar.com.jluque.exception.custom.IllegalArgumentCustomException;
 import ar.com.jluque.exception.custom.NotFoundCustomException;
+import ar.com.jluque.exception.custom.QuasarBuissinesException;
+import ar.com.jluque.exception.custom.QuasarBussinesNotFoundException;
 import ar.com.jluque.service.QuasarService;
 
 public class QuasarControllerTest {
@@ -30,6 +36,8 @@ public class QuasarControllerTest {
 	private QuasarService service;
 
 	private MockMvc mockMvc;
+
+	private ObjectMapper mapper = new ObjectMapper();
 
 	@BeforeEach
 	void setup() {
@@ -68,10 +76,10 @@ public class QuasarControllerTest {
 		String arrayDistance = Arrays.toString(distance);
 		arrayDistance = arrayDistance.substring(1, arrayDistance.length() - 1).replaceAll("\\s+", "");
 
-		when(service.getLocation(any())).thenThrow(NotFoundCustomException.class);
+		when(service.getLocation(any())).thenThrow(QuasarBussinesNotFoundException.class);
 		mockMvc.perform(get("/quasar/distance/{array_distance}", arrayDistance)
 				.contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE))
-				.andExpect(status().isNotFound());
+				.andExpect(status().is4xxClientError());
 	}
 
 	@Test
@@ -80,4 +88,49 @@ public class QuasarControllerTest {
 		mockMvc.perform(get("/quasar/distance/xxx").contentType(MediaType.APPLICATION_JSON_VALUE)
 				.accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isInternalServerError());
 	}
+
+	@Test
+	void getMessage200Test() throws Exception {
+		String[][] messagesInput = { { "este", "es", "un", "mensae", "asdf" },
+				{ "este", "asdf", "un", "fqdf", "secreto" }, { "este", "es", "un", "mensaje", "asdf" } };
+
+		String messageResponse = "este es un mensaje secretosss";
+
+		when(service.getMessage(any())).thenReturn(messageResponse);
+		mockMvc.perform(post("/quasar/message/").contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE).content(mapper.writeValueAsString(messagesInput)))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	void getMessage4xxGenericTest() throws Exception {
+		String[][] messagesInput = { { "este", "es", "un", "mensae", "asdf" },
+				{ "este", "asdf", "un", "fqdf", "secreto" }, { "este", "es", "un", "mensaje", "asdf" } };
+		when(service.getMessage(any())).thenThrow(IllegalArgumentCustomException.class);
+		mockMvc.perform(post("/quasar/messageERROR/").contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE).content(mapper.writeValueAsString(messagesInput)))
+				.andExpect(status().is4xxClientError());
+	}
+
+	@Test
+	void getMessage404NotFoundTest() throws Exception {
+		String[][] messagesInput = { { "este", "es", "un", "mensae", "asdf" },
+				{ "este", "asdf", "un", "fqdf", "secreto" }, { "este", "es", "un", "mensaje", "asdf" } };
+
+		when(service.getMessage(any())).thenThrow(QuasarBuissinesException.class);
+		mockMvc.perform(post("/quasar/message/").contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE).content(mapper.writeValueAsString(messagesInput)))
+				.andExpect(status().isInternalServerError());
+	}
+
+	@Test
+	void getMessage500Test() throws Exception {
+		String[][] messagesInput = { { "este", "es", "un", "mensae", "asdf" },
+				{ "este", "asdf", "un", "fqdf", "secreto" }, { "este", "es", "un", "mensaje", "asdf" } };
+		when(service.getMessage(any())).thenThrow(RuntimeException.class);
+		mockMvc.perform(post("/quasar/message/").contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE).content(mapper.writeValueAsString(messagesInput)))
+				.andExpect(status().isInternalServerError());
+	}
+
 }

@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.com.jluque.exception.custom.IllegalArgumentCustomException;
-import ar.com.jluque.exception.custom.NotFoundCustomException;
-import ar.com.jluque.exception.custom.QuasarBuissinesException;
 import ar.com.jluque.service.QuasarService;
 
 @RestController
@@ -36,8 +33,7 @@ public class QuasarController {
 	 * @throws Exception
 	 */
 	@GetMapping("/distance/{array_distance}")
-	public ResponseEntity<Point> getLocation(@PathVariable(value = "array_distance") double[] distances)
-			throws NotFoundCustomException, IllegalArgumentCustomException, QuasarBuissinesException {
+	public ResponseEntity<Point> getLocation(@PathVariable(value = "array_distance") double[] distances) {
 		return new ResponseEntity<>(service.getLocation(distances), HttpStatus.OK);
 	}
 
@@ -49,8 +45,7 @@ public class QuasarController {
 	 * @throws Exception
 	 */
 	@PostMapping("/message/")
-	public ResponseEntity<String> getMessage(@RequestBody String[][] messages)
-			throws IllegalArgumentCustomException, QuasarBuissinesException {
+	public ResponseEntity<String> getMessage(@RequestBody String[][] messages) {
 		return new ResponseEntity<>(service.getMessage(messages), HttpStatus.OK);
 	}
 

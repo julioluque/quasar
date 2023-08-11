@@ -152,7 +152,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "[\r\n    [\r\n        \" \",\r\n        \"daf\",\r\n        \"qd4\",\r\n        \"mensaje\",\r\n        \"fqd5\"\r\n    ],\r\n    [\r\n        \" \",\r\n        \"es\",\r\n        \"fqwf\",\r\n        \"qwtq\",\r\n        \"secreto\"\r\n    ],\r\n    [\r\n        \"este\",\r\n        \"qdfq\",\r\n        \"un\",\r\n        \"qwfq\",\r\n        \"qwfq\"\r\n    ]\r\n]",
+					"raw": "[\r\n    [\r\n        \"mensaje\",\r\n        \"daf\",\r\n        \"qd4\",\r\n        \"mensaje\",\r\n        \"fqd5\"\r\n    ],\r\n    [\r\n        \"rewqt\",\r\n        \"es\",\r\n        \"fqwf\",\r\n        \"qwtq\",\r\n        \"secreto\"\r\n    ],\r\n    [\r\n        \"fqdf\",\r\n        \"qdfq\",\r\n        \"un\",\r\n        \"qwfq\",\r\n        \"qwfq\"\r\n    ]\r\n]",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -337,6 +337,58 @@
 					],
 					"cookie": [],
 					"body": "este es un mensaje secreto"
+				},
+				{
+					"name": "example Bussines Error",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    [\r\n        \"mensaje\",\r\n        \"daf\",\r\n        \"qd4\",\r\n        \"mensaje\",\r\n        \"fqd5\"\r\n    ],\r\n    [\r\n        \"obvio\",\r\n        \"es\",\r\n        \"fqwf\",\r\n        \"qwtq\",\r\n        \"secreto\"\r\n    ],\r\n    [\r\n        \"este\",\r\n        \"qdfq\",\r\n        \"un\",\r\n        \"qwfq\",\r\n        \"qwfq\"\r\n    ]\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/quasar/message/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"quasar",
+								"message",
+								""
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 08 Aug 2023 13:46:31 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"exception\": \"QuasarBuissinesException\",\n    \"message\": \"Quasar General Error. Error de comparacion de mensaje. 'mensaje' != 'obvio'\",\n    \"path\": \"/quasar/message/\"\n}"
 				}
 			]
 		},
@@ -495,7 +547,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/topsecret_split/sato",
+					"raw": "http://localhost:8080/topsecret_split/SATO",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -503,7 +555,7 @@
 					"port": "8080",
 					"path": [
 						"topsecret_split",
-						"sato"
+						"SATO"
 					]
 				}
 			},
@@ -629,6 +681,52 @@
 					],
 					"cookie": [],
 					"body": "{\n    \"position\": {\n        \"x\": 10,\n        \"y\": 20\n    },\n    \"message\": \"Este es el mensaje\"\n}"
+				},
+				{
+					"name": "L1 topsecret DONE",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/topsecret/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"topsecret",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 11 Aug 2023 16:35:39 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"position\": {\n        \"x\": -58,\n        \"y\": -69\n    },\n    \"message\": \"este es un mensaje secreto\"\n}"
 				}
 			]
 		}

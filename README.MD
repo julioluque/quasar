@@ -172,7 +172,18 @@ Asi podemos manipuar el arra y mensajes y compararlos
 - http://localhost:8080/h2-console/
 - Username: sa
 - Password: sa
-- 
+
+
+## DOCUMENTATION
+
+SwaggerPath
+
+- http://localhost:8080/swagger/quasar
+
+Swagger UI
+
+- http://localhost:8080/swagger-ui/index.html
+
 
 ## Ejecucion del programa
 Para poder compilarlo con maven usamos
